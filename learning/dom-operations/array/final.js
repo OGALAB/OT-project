@@ -1,45 +1,47 @@
-// 最終問題
+// 課題⑥
+// let numbers = [30, 70, 55, 90, 40];
+// let smt = 0;
 
-// 課題①
-let score = 85;
-let isStudent = true;
-// マイコード ×
-
-// if (score >= 80) {
-//     console.log("優秀");
-//   if (score >= 60) {
-//     console.log("合格");
-//   } if (isStudent) {
-//     console.log("学生割引あり");
-//   }
-// } else {
-//     console.log("不合格");
+// for (let i =0; i < numbers.length; i++) {
+//     if (numbers[i] >= 60) {
+//         console.log(numbers[i]);
+//     smt += numbers[i];
+//         console.log(smt);
+//     }
 // }
 
-// 正解コード
-if (score >= 80) {
-    console.log("優秀");
-} else if (score >= 60) {
-    console.log("合格");
-} else {
-    console.log("不合格");
-}
-
-if (isStudent) {
-    console.log("学生割引あり");
-}
-
-// 課題②（実務寄り）
 // 正解
-let isLogin = true;
-let isAdmin = false;
+let numbers2 = [30, 70, 55, 90, 40];
+let sum2 = 0;
 
-if (isLogin) {
- if (isAdmin) {
-    console.log("管理者ページへ");
- } else {
-    console.log("マイページへ");
- }
-} else {
-    console.log("ログインしてください");
+for (let i = 0; i <numbers2.length; i++) {
+    if (numbers2[i] >= 60) {
+        console.log(numbers2[i]);
+        sum2 += numbers2[i];
+    }
 }
+
+console.log(sum2);
+
+// 課題⑦
+// let users3 = ["田中", "佐藤", "田中", "鈴木"];
+
+// for (let i = 0; i < users3.length; i++) {
+//     if (users3[i] !== "田中") {
+//         console.log(users3[i]);
+//         console.log(users3.length);
+//     }
+// }
+
+// 正解
+let user4 = ["田中", "佐藤", "田中", "鈴木"];
+let count = 0;
+
+for (let i = 0; i < user4.length; i++) {
+    if(user4[i] !== "田中") {
+        console.log(user4[i]);
+        count++;
+    }
+}
+
+console.log(count);

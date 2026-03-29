@@ -1,44 +1,48 @@
-// 基礎学習
+// 課題①　〇
+let animals = ["犬", "猫", "うさぎ"];
 
-// 課題①
-let score = 70;
-let isStudent = true;
-
-if (score >=60) {
-    console.log("合格");
-} if (isStudent) {
-    console.log("学生割引あり");
-} else {
-    console.log("不合格");
+for (let i = 0; i < animals.length; i++) {
+    console.log(animals[i]);
 }
 
-// 正解（70以上且つ学生の記述を一括りにする）（追加条件）
-if (score >=60) {
-    console.log("合格");
+// 課題②　×
+// let number = [10, 20, 30, 40];
 
-  if (isStudent) {
-    console.log("学生割引あり");
-  } 
+// for (let i = 0; i <= 40; i++) {
+//     number += i;
+//     console.log(i);
+// }
 
-  } else {
-      console.log("不合格");
+let number2 = [10,20, 30, 40];
+let sum = 0;
+
+for (let i = 0; i < number2.length; i++) {
+    sum += number2[i];
 }
 
+console.log(sum);
 
-// 課題②
-let isLogin = true;
-let isAdmin = true;
+// 課題③　〇
+let users = ["田中", "佐藤", "鈴木"];
 
-if (isLogin) {
-    console.log("ログイン中");
-} if (isAdmin) {
-    console.log("管理者ログイン中");
+for (let i = 0; i < users.length; i++) {
+    console.log(users[i] + "さん");
 }
 
-// 正解（学生の様に孤立してない条件が2つある時は&&を使う）（同時条件）
-let isLogin2 = true;
-let isAdmin2 = true;
+// 課題④
+let number3 = [10, 25, 60, 5, 80];
 
-if (isLogin2 && isAdmin2) {
-    console.log("管理者ログイン中");
+for (let i =  0; i < number3.length; i++) {
+    if (number3[i] >=60) {
+        console.log(number3[i]);
+    }
+}
+
+// 課題⑤
+let users2 = ["田中", "佐藤", "鈴木", "山田"];
+
+for (let i = 0; i < users2.length; i++) {
+    if (users2[i] !== "田中") {
+        console.log(users2[i]);
+    }
 }
