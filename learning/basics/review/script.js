@@ -23,7 +23,7 @@ let score = 80;
 if (score >= 60) {
     console.log("合格");
 } else {
-    ("不合格");
+    console.log("不合格");
 }
 
 // if文③
@@ -43,7 +43,7 @@ let isAdmin = true;
 if (isLogin) {
     console.log("ログイン中");
 
-    if (isLogin) {
+    if (isAdmin) {
         console.log("管理者です");
     }
 }
@@ -94,7 +94,7 @@ console.log(sum);
 let values = [30, 70, 55, 90, 40];
 let tally = 0;
 
-for (let i = 0; i >= values.length; i++) {
+for (let i = 0; i < values.length; i++) {
     if (values[i] >= 60) {
         tally += values[i];
     }
@@ -122,9 +122,7 @@ let passed = scores.filter((digit) => {
     return digit >= 60;
 });
 
-let array = passed.map(() => {
-    return "合格";
-});
+let array = passed.map(() => "合格");
 
 console.log(array);
 
@@ -140,9 +138,9 @@ let counts = document.getElementById("counts");
 let plusBtn = document.getElementById("plusBtn");
 
 plusBtn.addEventListener("click", () => { // クリックした時の処理。
-    let Add = Number(counts.textContent);  // counts.textContentはid"counts"の中の値を意味していて、Number()という既存のオブジェクトに入れ込む事で計算可能な数値に変換している。それをさらに「Add」という変数に変換している。
-    Add++; // 「0」をプラスしていくという意味
-    counts.textContent = Add;  // HTMLの「0」と先程修正したAddイコールと言う事を定義。
+    let add = Number(counts.textContent);  // counts.textContentはid"counts"の中の値を意味していて、Number()という既存のオブジェクトに入れ込む事で計算可能な数値に変換している。それをさらに「Add」という変数に変換している。
+    add++; // 「0」をプラスしていくという意味
+    counts.textContent = add;  // HTMLの「0」と先程修正したAddイコールと言う事を定義。
 })
 
 // DOM操作② 忘れているので注意
@@ -154,3 +152,66 @@ names.forEach((nms) => {
     li.textContent = nms; // liのテキストエリア内のテキストと配列がイコールな事を定義（追加している）。
     list.appendChild(li); // 「id"list"のul内に配列を入れ込んだ子要素liを追加した」という事象を画面に追加【必須】。
 })
+
+// 新規ミニ課題
+// let scores2 = [40, 60, 75, 90, 55];
+// let sn = 0;
+
+// scores2.forEach((nums) => {
+//     if (nums >= 60) {
+//         sn++;
+//         sn / scores2.length;
+//     }
+// })
+
+// console.log(sn);
+
+
+// ↓新規ミニ課題改善①
+// 平均値は「合計 ÷ 件数」
+let scores2 = [40, 60, 75, 90, 55];
+let sum2 = 0; // 合計用変数
+let count2 = 0; // 件数用変数
+
+scores2.forEach((nums) => {
+    if (nums >= 60) { // 60以上と限定。
+        sum2 += nums; // 「0」に配列を足していく。
+        count2++; // 件数を表示。
+    }
+})
+
+let average = sum2 / count2;
+console.log(average);
+
+// ↓※新規ミニ課題改善①さらにさらに改善
+// let scores2 = [40, 60, 75, 90, 55];
+// let pass = scores2.filter(num => num >= 60);
+// let sums = pass.reduce((ac, cu) => ac + cu, 0);
+
+// let averege = sums / pass.length;
+
+// console.log(averege);
+
+// 新規ミニ課題②
+// let scores3 = [40, 60, 75, 90, 55];
+
+// scores3.map((num) => {
+//     if (num >= 60) {
+//         console.log("合格");
+//     } else {
+//         console.log("不合格");
+//     }
+// })
+
+// ↓新規ミニ課題②正解コード
+let scores3 = [40, 60, 75, 90, 55];
+
+let results = scores3.map((num) => {
+    if (num >= 60) {
+        return "合格";
+    } else {
+        return "不合格";
+    }
+})
+
+console.log(results);
