@@ -36,7 +36,7 @@ if (point >= 80) {
     console.log("不合格");
 }
 
-// if文④ 「追加条件（{}の位置）」 ミスしたので注意。
+// if文④ 「追加条件（ifの中にif）」 ミスしたので注意。
 let isLogin = true;
 let isAdmin = true;
 
@@ -90,7 +90,7 @@ numbers.forEach((figure) => {
 
 console.log(sum);
 
-// 配列② 「ifの中にif」 ここも忘れているので注意。
+// 配列② ここも忘れているので注意。
 let values = [30, 70, 55, 90, 40];
 let tally = 0;
 
