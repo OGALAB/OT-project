@@ -12,34 +12,46 @@ function addtodo() {
     }
     input.value = "";
 
-    todos.push(text);
+    todos.push({
+        text: text,
+        completed: false
+    });
     render();
 }
 
 function render() {
     ullist.innerHTML = "";
-
     todos.forEach((todo, index) => {
         let li = document.createElement("li");
-        li.textContent = todo;
+        let span = document.createElement("span");
+        span.textContent =todo.text;
+
+        if (todo.completed) {
+            span.style.textDecoration = "line-through";
+        }
+
+        let checkInput = document.createElement("input");
+        checkInput.type = "checkbox";
+        checkInput.checked = todo.completed;
+
+        checkInput.addEventListener("change", () => {
+            todos[index].completed = checkInput.checked;
+            render();
+        });
 
         let removeBtn = document.createElement("button");
         removeBtn.textContent = "削除";
 
-        let label = document.createElement("label");
-        let checkinput = document.createElement("input");
-        checkinput.type = "checkbox";
-        checkinput.value.trim();
-
         removeBtn.addEventListener("click", () => {
-        todos = todos.filter((_, i) => i !== index);
-        render();    
+            todos = todos.filter((_, i) => i !== index);
+            render();
         });
 
-        ullist.appendChild(li);
-        li.appendChild(label);
-        label.appendChild(checkinput);
+        li.appendChild(checkInput);
+        li.appendChild(span);
         li.appendChild(removeBtn);
+
+        ullist.appendChild(li);
     });
 }
 
@@ -49,4 +61,4 @@ input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         addtodo();
     }
-})
+});
