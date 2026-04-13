@@ -1,8 +1,11 @@
 const input = document.getElementById("input");
 const btn = document.getElementById("btn");
 const ullist = document.getElementById("ullist");
+const clearBtn = document.getElementById("clearBtn")
 
-let todos = [];
+let todos = JSON.parse(localStorage.getItem("mytodos")) || [];
+
+render();
 
 function addtodo() {
     let text = input.value.trim();
@@ -16,6 +19,7 @@ function addtodo() {
         text: text,
         completed: false
     });
+    savetodo();
     render();
 }
 
@@ -36,6 +40,7 @@ function render() {
 
         checkInput.addEventListener("change", () => {
             todos[index].completed = checkInput.checked;
+            savetodo();
             render();
         });
 
@@ -44,6 +49,7 @@ function render() {
 
         removeBtn.addEventListener("click", () => {
             todos = todos.filter((_, i) => i !== index);
+            savetodo();
             render();
         });
 
@@ -55,6 +61,12 @@ function render() {
     });
 }
 
+clearBtn.addEventListener("click", () => {
+    todos = todos.filter(todo => !todo.completed);
+    savetodo();
+    render();
+});
+
 btn.addEventListener("click", addtodo);
 
 input.addEventListener("keydown", (e) => {
@@ -62,3 +74,7 @@ input.addEventListener("keydown", (e) => {
         addtodo();
     }
 });
+
+function savetodo() {
+    localStorage.setItem("mytodos", JSON.stringify(todos));
+}
