@@ -70,7 +70,7 @@ clearBtn.addEventListener("click", () => {
 btn.addEventListener("click", addtodo);
 
 input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && input.value !== "") {
         addtodo();
     }
 });
