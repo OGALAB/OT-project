@@ -28,7 +28,7 @@ function render() {
     todos.forEach((todo, index) => {
         let li = document.createElement("li");
         let span = document.createElement("span");
-        span.textContent =todo.text;
+        span.textContent = todo.text;
 
         if (todo.completed) {
             span.style.textDecoration = "line-through";
