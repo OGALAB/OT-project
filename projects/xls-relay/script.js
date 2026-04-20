@@ -1,5 +1,5 @@
 const btn = document.getElementById("btn");
-const targets = document.querySelector(".target");
+const targets = document.querySelectorAll(".target");
 const labelMap = {
     name: "名前",
     age: "年齢",
@@ -24,15 +24,15 @@ async function copyPasteFunction() {
             const [key, ...rest] = line.split(":");
             const value = rest.join(":");
             if (key && value) {
-                date[key.trim] = value.trim();
+                date[key.trim()] = value.trim();
             }
         });
 
         targets.forEach(el => {
-            const type = el.dateset.type;
+            const type = el.dataset.type;
             const label = labelMap[type];
             if (!label) {
-                console.warn('未対応のtype: ${type}');
+                console.warn(`未対応のtype: ${type}`);
                 return;
             }
             el.value = date[label];
