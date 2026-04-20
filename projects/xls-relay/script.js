@@ -1,34 +1,45 @@
 const btn = document.getElementById("btn");
-const targets = document.querySelectorAll(".target");
+const targets = document.querySelector(".target");
 const labelMap = {
-    "name": "名前",
-    "age": "年齢",
-    "email": "メール"
-};
+    name: "名前",
+    age: "年齢",
+    email: "メール"
+}
 
 async function copyPasteFunction() {
+    if (targets.length === 0) {
+        console.error("target要素がありません");
+        return;
+    }
     try {
         const text = await navigator.clipboard.readText();
-        if (!text) return;
-
+        if (!text) {
+            targets.forEach(el => el.value = "クリップボードが空です");
+            return;
+        }
         const lines = text.split(/\r?\n/);
-        const data = {};
+        const date = {};
 
         lines.forEach(line => {
-            const [key, value] = line.split(":");
+            const [key, ...rest] = line.split(":");
+            const value = rest.join(":");
             if (key && value) {
-                data[key.trim()] = value.trim();
+                date[key.trim] = value.trim();
             }
         });
 
-        targets.forEach((el) => {
-            const type = el.dataset.type;
+        targets.forEach(el => {
+            const type = el.dateset.type;
             const label = labelMap[type];
-            el.value = data[label] || "";
+            if (!label) {
+                console.warn('未対応のtype: ${type}');
+                return;
+            }
+            el.value = date[label];
         });
-
     } catch (err) {
-        console.error("エラーが発生しました", err);
+        console.error(err);
+        targets.forEach(el => el.value = "失敗しました");
     }
 }
 
