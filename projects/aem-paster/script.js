@@ -2,12 +2,14 @@ const btn = document.createElement("button");
 btn.textContent = "貼り付け";
 document.body.appendChild(btn);
 
-btn.style.position = "fixed";
-btn.style.top = "10px";
-btn.style.left = "10px";
-btn.style.padding = "10px 20px";
-btn.style.zIndex = "1000";
-btn.style.cursor = "pointer";
+Object.assign(btn.style, {
+    position: "fixed",
+    top: "10px",
+    left: "10px",
+    padding: "10px 20px",
+    zIndex: "1000",
+    cursor: "pointer"
+});
 
 const tbody = document.querySelector("tbody");
 
@@ -15,29 +17,58 @@ btn.addEventListener("click", async () => {
     try {
         const text = await navigator.clipboard.readText();
 
-        const rows = text
+        const grid = text
             .split(/\r?\n/)
             .map(row => row.split(/\t/));
 
-        let calendarData = {};
-        let currentDay = null;
+        const height = grid.length;
+        const width = Math.max(...grid.map(r => r.length));
 
-        rows.forEach(row => {
-            row.forEach(cell => {
-                const value = cell.trim();
+        const dayPositions = [];
 
-                if (!value) return;
+        for (let r = 0; r < height; r++) {
+            for (let c = 0; c < width; c++) {
+                const cell = (grid[r][c] || "").trim();
 
-                if (/^\d+$/.test(value)) {
-                    currentDay = Number(value);
-                } 
-                else if (currentDay !== null) {
-                    if (!calendarData[currentDay]) {
-                        calendarData[currentDay] = [];
+                if (/^\d{1,2}$/.test(cell)) {
+                    const day = Number(cell);
+                    if (day >= 1 && day <= 31) {
+                        dayPositions.push({ day, row: r, col: c });
                     }
-                    calendarData[currentDay].push(value);
                 }
-            });
+            }
+        }
+
+        dayPositions.sort((a, b) => a.day - b.day);
+
+        let startCol = 0;
+
+        const firstDay = dayPositions.find(d => d.day === 1);
+        if (firstDay) {
+            startCol = firstDay.col % 7;
+        }
+
+        const calendarData = {};
+
+        dayPositions.forEach(pos => {
+            const { day, row, col } = pos;
+
+            const values = [];
+
+            for (let offset = 1; offset <= 3; offset++) {
+                const r = row + offset;
+                if (r >= height) break;
+
+                const cell = (grid[r][col] || "").trim();
+
+                if (!cell) continue;
+
+                if (/^\d+$/.test(cell)) break;
+
+                values.push(cell);
+            }
+
+            calendarData[day] = values;
         });
 
         tbody.innerHTML = "";
@@ -56,6 +87,9 @@ btn.addEventListener("click", async () => {
             const trData = document.createElement("tr");
 
             for (let d = 0; d < 7; d++) {
+
+                const realCol = (d + startCol) % 7;
+
                 const tdDate = document.createElement("td");
                 tdDate.colSpan = 2;
 
@@ -66,6 +100,7 @@ btn.addEventListener("click", async () => {
 
                 const tdAM = document.createElement("td");
                 tdAM.textContent = "AM";
+
                 const tdPM = document.createElement("td");
                 tdPM.textContent = "PM";
 
@@ -76,12 +111,12 @@ btn.addEventListener("click", async () => {
                 const td2 = document.createElement("td");
 
                 if (day <= totalDays) {
-                    const content = calendarData[day] || [];
+                    const values = calendarData[day] || [];
 
-                    td1.textContent = content[0] || "";
-                    td2.textContent = content[1] || "";
+                    td1.textContent = values[0] || "";
+                    td2.textContent = values[1] || values[0] || "";
 
-                    if (d === 0 || d === 6) {
+                    if (realCol === 0 || realCol === 6) {
                         td1.style.color = "red";
                         td2.style.color = "red";
                     }
@@ -101,7 +136,7 @@ btn.addEventListener("click", async () => {
         }
 
     } catch (err) {
-        console.error("エラーが発生しました", err);
-        alert("クリップボードの読み取りを許可してください。");
+        console.error(err);
+        alert("クリップボードの読み取りを許可してください");
     }
 });
