@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ツール用デモページ</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            font-size: 25px;
+            margin-top: 100px;
+        }
+        .calendar-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            font-size: 16px;
+            text-align: center;
+        }
+        .calendar-table th, .calendar-table td {
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<!-- ↓ AEMページ想定 -->
+    <h1>テストカレンダー</h1>
+
+<table class="calendar-table">
+    <caption style="background: #444; color: #fff; font-weight: bold; padding: 8px;">YYYY ／ MM</caption>
+    <thead>
+        <tr style="background: #666; color: #fff;">
+            <td colspan="2">日</td>
+            <td colspan="2">月</td>
+            <td colspan="2">火</td>
+            <td colspan="2">水</td>
+            <td colspan="2">木</td>
+            <td colspan="2">金</td>
+            <td colspan="2">土</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="background: #f0f0f0; font-weight: bold;">
+            <td colspan="2">1</td>
+            <td colspan="2">2</td>
+            <td colspan="2">3</td>
+            <td colspan="2">4</td>
+            <td colspan="2">5</td>
+            <td colspan="2">6</td>
+            <td colspan="2">7</td>
+        </tr>
+        <tr style="font-size: 11px; color: #777;">
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+        </tr>
+        <tr>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>満</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>満</td>
+            <td>空</td><td>空</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+        </tr>
+
+        <tr style="background: #f0f0f0; font-weight: bold;">
+            <td colspan="2">8</td>
+            <td colspan="2">9</td>
+            <td colspan="2">10</td>
+            <td colspan="2">11</td>
+            <td colspan="2">12</td>
+            <td colspan="2">13</td>
+            <td colspan="2">14</td>
+        </tr>
+        <tr style="font-size: 11px; color: #777;">
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+        </tr>
+        <tr>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td>空</td><td>満</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>満</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+        </tr>
+        <tr style="background: #f0f0f0; font-weight: bold;">
+            <td colspan="2">15</td>
+            <td colspan="2">16</td>
+            <td colspan="2">17</td>
+            <td colspan="2">18</td>
+            <td colspan="2">19</td>
+            <td colspan="2">20</td>
+            <td colspan="2">21</td>
+        </tr>
+        <tr style="font-size: 11px; color: #777;">
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+        </tr>
+        <tr>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td>空</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>満</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+        </tr>
+        <tr style="background: #f0f0f0; font-weight: bold;">
+            <td colspan="2">22</td>
+            <td colspan="2">23</td>
+            <td colspan="2">24</td>
+            <td colspan="2">25</td>
+            <td colspan="2">26</td>
+            <td colspan="2">27</td>
+            <td colspan="2">28</td>
+        </tr>
+        <tr style="font-size: 11px; color: #777;">
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+        </tr>
+        <tr>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td>空</td><td>満</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td>満</td><td>満</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+        </tr>
+        <tr style="background: #f0f0f0; font-weight: bold;">
+            <td colspan="2">29</td>
+            <td colspan="2">30</td>
+            <td colspan="2">31</td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+        </tr>
+        <tr style="font-size: 11px; color: #777;">
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+            <td>AM</td><td>PM</td>
+        </tr>
+        <tr>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td style="color: #d9534f; font-weight: bold;">休</td>
+            <td>満</td><td>空</td>
+            <td>空</td><td>空</td>
+            <td></td><td></td>
+            <td></td><td></td>
+            <td></td><td></td>
+            <td></td><td></td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="./script.js" defer></script>
+</body>
+</html>
