@@ -4,17 +4,16 @@ btn.innerHTML = "HTML生成ボタン";
 
 document.body.appendChild(btn);
 
+function handleExport() {
+    const now = new Date();
+    buildCalendarHtml(now.getFullYear(), now.getMonth() + 1);
+}
+
 /**
  * @param {number} year
  * @param {number} month
  */
-
-function handleExport() {
-    generatetable();
-    downloadHtml();
-}
-
-function  generatetable(year, month) {
+function  buildCalendarHtml(year, month) {
     const firstDay = new Date(year, month - 1, 1).getDay();
     const lastDate = new Date(year, month, 0).getDate();
 
@@ -27,6 +26,9 @@ function  generatetable(year, month) {
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay || dateCount > lastDate) {
                 row += "<td></td>";
+            } else {
+                row += `<td>${dateCount}</td>`;
+                dateCount++;
             }
         }
 
@@ -36,18 +38,19 @@ function  generatetable(year, month) {
     }
 
     const htmlContent = `
-<table border="0" cellpadding="0" cellspacing="0" width="1008">
-    <tbody>
-        ${calendarRow}
-    </tbody>
-</table>`;
-}
+    <table border="0" cellpadding="0" cellspacing="0" width="1008">
+        <tbody>
+            ${calendarRow}
+        </tbody>
+    </table>`;
 
-function downloadHtml() {
     const blob = new Blob([htmlContent], { type: 'text/html' });
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'index.html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `最新カレンダー.html`
     a.click();
-    URL.revokeObjectURL(a.href);
+    URL.revokeObjectURL(url);
 }
 
 btn.addEventListener("click", handleExport);
