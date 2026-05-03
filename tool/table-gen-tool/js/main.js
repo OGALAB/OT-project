@@ -20,14 +20,16 @@ function  buildCalendarHtml(year, month) {
     let calendarRow = "";
     let dateCount = 1;
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 18; i++) {
         let row = "<tr>";
 
         for (let j = 0; j < 7; j++) {
+            let firstRow = (i % 3 === 0);
+
             if (i === 0 && j < firstDay || dateCount > lastDate) {
-                row += "<td></td>";
-            } else {
-                row += `<td>${dateCount}</td>`;
+                row += '<td colspan="2"></td>';
+            } else if (firstRow) {
+                row += `<td colspan="2">${dateCount}</td>`;
                 dateCount++;
             }
         }
@@ -38,8 +40,17 @@ function  buildCalendarHtml(year, month) {
     }
 
     const htmlContent = `
-    <table border="0" cellpadding="0" cellspacing="0" width="1008">
+    <table border="0" cellpadding="0" cellspacing="0" width="1000">
         <tbody>
+            <tr><td colspan="14">${year}年${month}月</td></tr>
+            <tr><td colspan="2" style="background: #999;">日</td>
+            <td colspan="2" style="background: #999;">月</td>
+            <td colspan="2" style="background: #999;">火</td>
+            <td colspan="2" style="background: #999;">水</td>
+            <td colspan="2" style="background: #999;">木</td>
+            <td colspan="2" style="background: #999;">金</td>
+            <td colspan="2" style="background: #999;">土</td>
+            </tr>
             ${calendarRow}
         </tbody>
     </table>`;
