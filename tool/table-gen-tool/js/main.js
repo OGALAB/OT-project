@@ -22,21 +22,34 @@ function  buildCalendarHtml(year, month) {
 
     for (let i = 0; i < 18; i++) {
         let row = "<tr>";
+        let currentDay = dateCount;
 
         for (let j = 0; j < 7; j++) {
             let firstRow = (i % 3 === 0);
+            let secondRow = (i % 3 === 1);
+            let thirdRow = (i % 3 === 2);
 
-            if (i === 0 && j < firstDay || dateCount > lastDate) {
-                row += '<td colspan="2"></td>';
-            } else if (firstRow) {
-                row += `<td colspan="2">${dateCount}</td>`;
-                dateCount++;
+            if (firstRow) {
+                if (i === 0 && j < firstDay || dateCount > lastDate) {
+                    row += `<td colspan="2"></td>`;
+                } else {
+                    row += `<td colspan="2">${dateCount}</td>`;
+                    dateCount++;
+                }
+            } else if (secondRow) {
+                let currentDay = this.rowStartDate + (j - (i === 1 ? firstDay : 0));
+
+                if (i === 1 && j < firstDay || currentDay > lastDate) {
+                    row += `<td colspan="2"></td>`;
+                } else {
+                    row += `<td>午前</td><td>午後</td>`;
+                }
             }
         }
 
         row += "</tr>";
         calendarRow += row;
-        if (dateCount > lastDate) break;
+        if (dateCount > lastDate && i % 3 === 2) break;
     }
 
     const htmlContent = `
