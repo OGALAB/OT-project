@@ -1,5 +1,12 @@
 // Tampermonkey code
 // UIエリア
+const togglecontainer = document.createElement("div");
+togglecontainer.style.position = "fixed";
+togglecontainer.style.top = "10px";
+togglecontainer.style.left = "10px";
+togglecontainer.style.zIndex = "1000";
+document.body.appendChild(togglecontainer);
+
 const toggleBtn = document.createElement("button");
 toggleBtn.innerHTML = "📅";
 toggleBtn.style.backgroundColor = "#f4f4f4";
@@ -10,7 +17,7 @@ toggleBtn.style.marginBottom = "5px";
 toggleBtn.style.display = "block";
 toggleBtn.style.border = "none";
 toggleBtn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-document.body.appendChild(toggleBtn);
+togglecontainer.appendChild(toggleBtn);
 
 const container = document.createElement("div");
 container.style.backgroundColor = "#fff";
@@ -19,7 +26,7 @@ container.style.borderRadius = "8px";
 container.style.padding = "10px";
 container.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
 container.style.display = "none";
-document.body.appendChild(container);
+togglecontainer.appendChild(container);
 
 const monthInput = document.createElement("input");
 monthInput.type = "month";
@@ -86,10 +93,33 @@ monthInput.value = `${targetYear}-${targetMonth}`;
 
 // UI用JS
 toggleBtn.addEventListener("click", () => {
-    if (container.style.display === "none") {
+    const hidden = window.getComputedStyle(container).display === "none" || container.style.opacity === "0";
+
+    if (hidden) {
         container.style.display = "block";
+        
+        container.animate([
+            { opacity: 0, transform: "translateY(-10px)" },
+            { opacity: 1, transform: "translateY(0)" }
+        ], {
+            duration: 400,
+            easing: "ease",
+            fill: "forwards"
+        });
+
     } else {
-        container.style.display = "none";
+        const animation = container.animate([
+            { opacity: 1, transform: "translateY(0)" },
+            { opacity: 0, transform: "translateY(-10px)" }
+        ], {
+            duration: 300,
+            easing: "ease",
+            fill: "forwards"
+        });
+
+        animation.onfinish = () => {
+            container.style.display = "none";
+        };
     }
 });
 
@@ -118,15 +148,6 @@ freeBtn.addEventListener("click", () => {
         const targetAm = /am$/i.test(part);
         const targetPm = /pm$/i.test(part);
 
-        let convert1 = part.replace(/[apmAPM]/g, "");
-        let convert2 = convert1.replace(/[０-９]/g, function(s) {
-            let charCode = s.charCodeAt(0);
-            let halfcode = charCode - 0xFEE0;
-            return String.fromCharCode(halfcode);
-        });
-
-        const cleanPart = convert2;
-        
         const setStatus = (day) => {
             if (day >= 1 && day <= 31) {
                 if (targetAm) {
@@ -139,6 +160,15 @@ freeBtn.addEventListener("click", () => {
                 }
             }
         };
+
+        let convert1 = part.replace(/[apmAPM]/g, "");
+        let convert2 = convert1.replace(/[０-９]/g, function(s) {
+            let charCode = s.charCodeAt(0);
+            let halfCode = charCode - 0xFEE0;
+            return String.fromCharCode(halfCode);
+        });
+
+        const cleanPart = convert2;
 
         if (cleanPart.includes("-") || cleanPart.includes("〜") || cleanPart.includes("~")) {
             const days = cleanPart.split(/[-〜~]/);
