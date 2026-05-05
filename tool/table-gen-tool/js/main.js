@@ -27,15 +27,15 @@ monthInput.style.display = "block";
 monthInput.style.width = "145px";
 monthInput.style.color = "#333";
 monthInput.style.padding = "5px";
-monthInput.style.marginTop = "10px";
+monthInput.style.marginBottom = "10px";
 monthInput.style.borderRadius = "4px";
 container.appendChild(monthInput);
 
 const freeLabel = document.createElement("label");
 freeLabel.style.display = "block";
 freeLabel.style.color = "#333";
-freeLabel.innerHTML = "空の日のみを記入";
-freeLabel.style.fontSize = "14px";
+freeLabel.innerHTML = "空日のみを記入↓";
+freeLabel.style.fontSize = "12px";
 container.appendChild(freeLabel);
 
 const freeInput = document.createElement("input");
@@ -48,7 +48,7 @@ freeInput.style.marginBottom = "10px";
 container.appendChild(freeInput);
 
 const freeBtn = document.createElement("button");
-freeBtn.innerHTML = "実行";
+freeBtn.innerHTML = "1.実行";
 freeBtn.style.display = "block";
 freeBtn.style.marginBottom = "8px";
 freeBtn.style.backgroundColor = "#007bff";
@@ -58,21 +58,31 @@ freeBtn.style.borderRadius = "4px";
 freeBtn.style.padding = "4px 12px";
 container.appendChild(freeBtn);
 
+const helpText = document.createElement("p");
+helpText.innerHTML = "※入力例：1,2-4,5am,6pm<br>※5-7pmなどの範囲指定も可";
+helpText.style.fontSize = "10px";
+helpText.style.color = "#666";
+helpText.style.marginTop = "0px";
+helpText.style.marginBottom = "10px";
+helpText.style.lineHeight = "1.2";
+container.insertBefore(helpText, freeBtn);
+
 const downloadBtn = document.createElement("button");
-downloadBtn.innerHTML = "カレンダー生成ボタン";
+downloadBtn.innerHTML = "2.カレンダー生成ボタン";
 downloadBtn.style.backgroundColor = "#c82333";
 downloadBtn.style.color = "#fff";
 downloadBtn.style.border = "none";
 downloadBtn.style.borderRadius = "4px";
 downloadBtn.style.fontSize = "12px";
 downloadBtn.style.padding = "6px 10px";
-downloadBtn.style.width = "140px";
+downloadBtn.style.width = "150px";
 downloadBtn.style.height = "30px";
 container.appendChild(downloadBtn);
 
 const now = new Date();
-monthInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-container.appendChild(monthInput);
+const targetYear = now.getFullYear();
+const targetMonth = String(now.getMonth() + 1).padStart(2, '0');
+monthInput.value = `${targetYear}-${targetMonth}`;
 
 // UI用JS
 toggleBtn.addEventListener("click", () => {
@@ -85,6 +95,15 @@ toggleBtn.addEventListener("click", () => {
 
 let calendarResults = [];
 
+for (let d = 0; d < 31; d++) {
+    let dayStatus = {
+        am: "満",
+        pm: "満"
+    };
+
+    calendarResults.push(dayStatus);
+}
+
 freeBtn.addEventListener("click", () => {
     const inputValue = freeInput.value.trim();
 
@@ -93,35 +112,55 @@ freeBtn.addEventListener("click", () => {
         return;
     }
 
-    calendarResults = new Array(31).fill("満");
-
     const parts = inputValue.split(/[，,、\s]+/);
 
     parts.forEach(part => {
-        if (part.includes("-") || part.includes("〜") || part.includes("~")) {
-            const range = part.split(/[-〜~]/);
-            const start = parseInt(range[0].replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0)));
-            const end = parseInt(range[1].replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0)));
+        const targetAm = /am$/i.test(part);
+        const targetPm = /pm$/i.test(part);
+
+        let convert1 = part.replace(/[apmAPM]/g, "");
+        let convert2 = convert1.replace(/[０-９]/g, function(s) {
+            let charCode = s.charCodeAt(0);
+            let halfcode = charCode - 0xFEE0;
+            return String.fromCharCode(halfcode);
+        });
+
+        const cleanPart = convert2;
+        
+        const setStatus = (day) => {
+            if (day >= 1 && day <= 31) {
+                if (targetAm) {
+                    calendarResults[day - 1].am = "空";
+                } else if (targetPm) {
+                    calendarResults[day - 1].pm = "空";
+                } else {
+                    calendarResults[day - 1].am = "空";
+                    calendarResults[day - 1].pm = "空";
+                }
+            }
+        };
+
+        if (cleanPart.includes("-") || cleanPart.includes("〜") || cleanPart.includes("~")) {
+            const days = cleanPart.split(/[-〜~]/);
+            const start = parseInt(days[0]);
+            const end = parseInt(days[1]);
 
             if (!isNaN(start) && !isNaN(end)) {
                 const s = Math.min(start, end);
                 const e = Math.max(start, end);
                 for (let i = s; i <= e; i++) {
-                    if (i >= 1 && i <= 31) {
-                        calendarResults[i - 1] = "空";
-                    }
+                    setStatus(i);
                 }
             }
         } else {
-            const day = parseInt(part.replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0)));
-            if (!isNaN(day) && day >= 1 && day <= 31) {
-                calendarResults[day - 1] = "空";
+            const day = parseInt(cleanPart);
+            if (!isNaN(day)) {
+                setStatus(day);
             }
         }
     });
 
     freeInput.value = "";
-
     alert("カレンダーを更新しました。");
 });
 
@@ -131,7 +170,9 @@ function handleExport() {
         return;
     }
 
-    const [year, month] = monthInput.value.split("-").map(Number);
+    const [inputYear, inputMonth] = monthInput.value.split("-");
+    const year = Number(inputYear);
+    const month = Number(inputMonth);
     buildCalendarHtml(year, month);
 }
 
@@ -160,10 +201,14 @@ function  buildCalendarHtml(year, month) {
             if (firstRow) {
                 row += `<td colspan="2">${nowDate ? retenCount : ""}</td>`;
             } else if (secondRow) {
-                row += nowDate ? `<td>午前</td><td>午後</td>` : `<td colspan="2"></td>`;
+                row += nowDate ? `<td>午前</td><td>午後</td>` : `<td></td><td></td>`;
             } else if (thirdRow) {
-                const mark = (nowDate && calendarResults[retenCount - 1]) ? calendarResults[retenCount - 1] : "";
-                row += `<td colspan="2">${mark}</td>`;
+                if (nowDate) {
+                    const data = calendarResults[retenCount - 1];
+                    row += `<td>${data.am}</td><td>${data.pm}</td>`;
+                } else {
+                    row += `<td></td><td></td>`;
+                }
             }
 
             if (!(i < 3 && j < firstDay)) {
@@ -201,9 +246,12 @@ function  buildCalendarHtml(year, month) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `最新カレンダー.html`
+    a.download = `最新のカレンダー.html`
     a.click();
     URL.revokeObjectURL(url);
 }
 
-downloadBtn.addEventListener("click", handleExport);
+downloadBtn.addEventListener("click", () => {
+    alert("カレンダーを生成しました。");
+    handleExport();
+});
