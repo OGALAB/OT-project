@@ -1,15 +1,15 @@
 // Tampermonkey code
 // UIエリア
-const togglecontainer = document.createElement("div");
-togglecontainer.style.position = "fixed";
-togglecontainer.style.top = "10px";
-togglecontainer.style.left = "10px";
-togglecontainer.style.zIndex = "1000";
-document.body.appendChild(togglecontainer);
+const toggleContainer = document.createElement("div");
+toggleContainer.style.position = "fixed";
+toggleContainer.style.top = "10px";
+toggleContainer.style.left = "10px";
+toggleContainer.style.zIndex = "1000";
+document.body.appendChild(toggleContainer);
 
 const toggleBtn = document.createElement("button");
 toggleBtn.innerHTML = "📅";
-toggleBtn.style.backgroundColor = "#f4f4f4";
+toggleBtn.style.backgroundColor = "#efefef";
 toggleBtn.style.padding = "8px 12px";
 toggleBtn.style.borderRadius = "4px";
 toggleBtn.style.cursor = "pointer";
@@ -17,7 +17,7 @@ toggleBtn.style.marginBottom = "5px";
 toggleBtn.style.display = "block";
 toggleBtn.style.border = "none";
 toggleBtn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-togglecontainer.appendChild(toggleBtn);
+toggleContainer.appendChild(toggleBtn);
 
 const container = document.createElement("div");
 container.style.backgroundColor = "#fff";
@@ -26,7 +26,7 @@ container.style.borderRadius = "8px";
 container.style.padding = "10px";
 container.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
 container.style.display = "none";
-togglecontainer.appendChild(container);
+toggleContainer.appendChild(container);
 
 const monthInput = document.createElement("input");
 monthInput.type = "month";
@@ -41,7 +41,7 @@ container.appendChild(monthInput);
 const freeLabel = document.createElement("label");
 freeLabel.style.display = "block";
 freeLabel.style.color = "#333";
-freeLabel.innerHTML = "空日のみを記入↓";
+freeLabel.innerHTML = "空日／休日を記入↓";
 freeLabel.style.fontSize = "12px";
 container.appendChild(freeLabel);
 
@@ -85,11 +85,6 @@ downloadBtn.style.padding = "6px 10px";
 downloadBtn.style.width = "150px";
 downloadBtn.style.height = "30px";
 container.appendChild(downloadBtn);
-
-const now = new Date();
-const targetYear = now.getFullYear();
-const targetMonth = String(now.getMonth() + 1).padStart(2, '0');
-monthInput.value = `${targetYear}-${targetMonth}`;
 
 // UI用JS
 toggleBtn.addEventListener("click", () => {
@@ -151,15 +146,15 @@ freeBtn.addEventListener("click", () => {
 
         const setStatus = (day) => {
             if (day >= 1 && day <= 31) {
-                let HolFree = targetHol ? "休" : "空";
+                let holFree = targetHol ? "休" : "空";
 
                 if (targetAm) {
-                    calendarResults[day - 1].am = HolFree;
+                    calendarResults[day - 1].am = holFree;
                 } else if (targetPm) {
-                    calendarResults[day - 1].pm = HolFree;
+                    calendarResults[day - 1].pm = holFree;
                 } else {
-                    calendarResults[day - 1].am = HolFree;
-                    calendarResults[day - 1].pm = HolFree;
+                    calendarResults[day - 1].am = holFree;
+                    calendarResults[day - 1].pm = holFree;
                 }
             }
         };
@@ -196,6 +191,11 @@ freeBtn.addEventListener("click", () => {
     freeInput.value = "";
     alert("カレンダーを更新しました。");
 });
+
+const now = new Date();
+const targetYear = now.getFullYear();
+const targetMonth = String(now.getMonth() + 1).padStart(2, '0');
+monthInput.value = `${targetYear}-${targetMonth}`;
 
 function handleExport() {
     if (!monthInput.value) {
