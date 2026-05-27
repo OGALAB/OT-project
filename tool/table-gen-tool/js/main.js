@@ -67,4 +67,26 @@ function inputFieldOrganize() {
        return String.fromCharCode(s.charCodeAt(0) - 0xFEE0); 
     });
     
+    // 入力データ内の「-」「~」「ー」「～」を検索
+    if (cleanInput.includes("-") || cleanInput.includes("~") || cleanInput.includes("ー") || cleanInput.includes("～")) {
+        // ハイフン等が入っている入力データを分割
+        const inputHyphen = cleanInput.split(/[-~ー～]/);
+        // 入力データの最初と最後の値を取得（Numberに変更）
+        const inputStart = Number(inputHyphen[0]);
+        const inputEnd = Number(inputHyphen[1]);
+        
+        // ハイフン間の最小値と最大値を取り出し順にカウント
+        if (!isNaN(inputStart) && !isNaN(inputEnd)) {
+            const inputMin = Math.min(inputStart, inputEnd);
+            const inputMax = Math.max(inputStart, inputEnd);
+            for (let inputCount = inputMin; inputCount <= inputMax; inputCount++) {
+                inputStatus(inputCount);
+            }
+        } else {
+            const inputKeep = Number(cleanInput);
+            if (!isNaN(inputKeep)) {
+                inputStatus(inputKeep);
+            }
+        }
+    }
 }
