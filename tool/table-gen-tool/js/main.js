@@ -51,3 +51,20 @@ tgBtn.addEventListener("click", () => {
     }
     tgAction = !tgAction;
 });
+
+// 入力データの整理
+function inputFieldOrganize() {
+    const inputField = document.querySelector(".input-field");
+    
+    // inputタグの入力データを取り出す
+    const textInputVal = inputField.value.trim();
+    // 読点が入っている入力データを分割
+    const divisionInput = textInputVal.split(/[，,、\s]+/);
+    // 入力データの不要な文字を削除
+    const alphabetDeleteInput = divisionInput.replace(/[apmAPM]/g, "");
+    // 大文字の数字を小文字に変換
+    const cleanInput = alphabetDeleteInput.replace(/[０-９]/g, function(s) {
+       return String.fromCharCode(s.charCodeAt(0) - 0xFEE0); 
+    });
+    
+}
