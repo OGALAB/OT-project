@@ -65,8 +65,8 @@ tgBtn.addEventListener("click", () => {
     tgAction = !tgAction;
 });
 
-// 入力データの整理
-function inputFieldOrganize() {
+// 入力データの整理 した物を変数に代入
+const inputFieldOrganize = function () {
     // DOMのクラスを取得
     const inputField = document.querySelector(".input-field");
     
@@ -89,7 +89,7 @@ function inputFieldOrganize() {
         const inputStart = Number(inputHyphen[0]);
         const inputEnd = Number(inputHyphen[1]);
         
-        // ハイフン間の最小値と最大値を取り出し順にカウント
+        // ハイフン間の最小値と最大値を取り出し最小値順にカウント
         if (!isNaN(inputStart) && !isNaN(inputEnd)) {
             const inputMin = Math.min(inputStart, inputEnd);
             const inputMax = Math.max(inputStart, inputEnd);
