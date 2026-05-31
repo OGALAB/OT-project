@@ -1,5 +1,8 @@
-// ＊＊UIエリア構築＊＊
-// 処理を軽くするためにDOMコンテンツを一括で構築する方法に変更 CSSも一緒に追加
+/////////////////////////////////////////////////
+// 【UI構築】 ＊＊ページ表示用のHTMLを作成＊＊
+////////////////////////////////////////////////
+
+// 処理を軽くするためにHTMLコンテンツを一括で構築する方法に変更 CSSも一緒に追加
 const htmlContent = `
 <button class="toggle-btn" style="display: block; background-color: #efefef; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 5px; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">📅</button>
 <div class="input-container" style="background-color: #ffffff; width: 200px; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none;">
@@ -18,7 +21,10 @@ div.style.cssText = "position: fixed; top: 10px; left: 10px; z-index: 1000;"
 div.innerHTML = htmlContent;
 document.body.appendChild(div);
 
-// ＊＊UI機能実装＊＊
+/////////////////////////////////////////////////
+// 【UI機能】 ＊＊トグルボタンのクリックイベント＊＊
+////////////////////////////////////////////////
+
 // DOMのクラスを取得
 const tgBtn = document.querySelector(".toggle-btn");
 const iptContainer = document.querySelector(".input-container");
@@ -26,7 +32,6 @@ const iptContainer = document.querySelector(".input-container");
 // 初期設定として状態を「true」に設定（最初に読み込まれるコードを指定）
 let tgAction = true;
 
-// トグルボタンのクリックイベント
 tgBtn.addEventListener("click", () => {
 // 最初にここが読まれる ボタンの状態を「非表示」から「表示」に変動
 if (tgAction) {
@@ -64,7 +69,10 @@ if (tgAction) {
 tgAction = !tgAction;
 });
 
-// データ洗浄＋配列作成用関数
+///////////////////////////////////////////////////
+//  【カレンダー用関数】＊＊データ管理＋配列作成用＊＊
+//////////////////////////////////////////////////
+
 function cleansingAndBuildCalendar(inputData) {
 
 // 最終的なカレンダーの配列データ
