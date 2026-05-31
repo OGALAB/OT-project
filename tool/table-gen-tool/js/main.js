@@ -73,7 +73,7 @@ tgAction = !tgAction;
 //  【カレンダー用関数】＊＊データ管理＋配列作成用＊＊
 //////////////////////////////////////////////////
 
-function cleansingAndBuildCalendar(inputData) {
+function keepDigitsAndBuildCalendar(inputData) {
 
 // 最終的なカレンダーの配列データ
 let calendarResults = [];
