@@ -1,6 +1,6 @@
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 【UI構築】 ＊＊ページ表示用のHTMLを作成＊＊
-////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 処理を軽くするためにHTMLコンテンツを一括で構築する方法に変更 CSSも一緒に追加
 const htmlContent = `
 <button class="toggle-btn" style="display: block; background-color: #efefef; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 5px; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">📅</button>
@@ -11,7 +11,7 @@ const htmlContent = `
     <input class="input-field" type="text" style="display: block; width: 170px; height: 25px; margin-top: 5px; margin-bottom: 10px;">
 </label>
 <p style="font-size: 10px; color: #666; margin-top: 0; margin-bottom: 10px; line-height: 1.2;">※入力例：1,2-4,5am,6pm,7~15休<br>※5-7pmなどの範囲指定も可</p>
-<button style="width: 150px; height: 30px; background-color: #c82333; color: #ffffff; font-size: 12px; border: none; border-radius: 4px; padding: 6px 10px;">カレンダー生成ボタン</button>
+<button class="generate-btn" style="width: 150px; height: 30px; background-color: #c82333; color: #ffffff; font-size: 12px; border: none; border-radius: 4px; padding: 6px 10px;">カレンダー生成ボタン</button>
 </div>
 `;
 // 大枠のdivだけDOM操作する
@@ -20,9 +20,9 @@ div.style.cssText = "position: fixed; top: 10px; left: 10px; z-index: 1000;"
 div.innerHTML = htmlContent;
 document.body.appendChild(div);
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 【UI機能】 ＊＊トグルボタンのクリックイベント＊＊
-////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // DOMのクラスを取得
 const tgBtn = document.querySelector(".toggle-btn");
 const iptContainer = document.querySelector(".input-container");
@@ -67,9 +67,9 @@ if (tgAction) {
 tgAction = !tgAction;
 });
 
-///////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  【カレンダー用関数】＊＊データ管理＋配列作成用＊＊
-//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function keepDigitsAndBuildCalendar(inputData) {
 
 // 最終的なカレンダーの配列データ
@@ -146,19 +146,97 @@ inputParts.forEach(iPart => {
 // 【重要】完成した31日分のデータを戻り値として外に返す
 return calendarResults;
 };
-
-// テーブルタグ生成 UI出力関数
-/** JSDoc
+// テーブルタグ生成 UI出力関数 JSDoc
+/**
  * @param {number} year // 表示する年
  * @param {number} month // 表示する月
  * @param {Object[]} calendarData // カレンダーのデータ配列
  * @param {string} calendarData[].am // 午前の予定
  * @param {string} calendarData[].pm // 午後の予定
  */
+// DOMのクラスを取得
+const monthInput = document.querySelector(".input-month");
 
-///////////////////////////////////////////////////
+// 現在の年月の取得 padStartメソッドで月の文字列を0を先頭に2桁へ変更
+const nowData = new Date();
+const targetYear = nowData.getFullYear();
+const targetMonth = String(nowData.getMonth() + 1).padStart(2, "0");
+monthInput.value = `${targetYear}-${targetMonth}`;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  【カレンダー用関数】＊＊データ管理＋配列作成用＊＊
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function generateCalendarHtml(year, month, calendarData) {
+    // 月初、月末の取得
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    const lastDate = new Date(year, month, 0).getDate();
     
+    // カレンダーのHTML用空配列とカウント用変数
+    let calendarRow = "";
+    let dateCount = 1;
+    
+    // 全体の行 3つで1セットのため合計18個
+    for (let k = 0; k < 18; k++) {
+        let row = "<tr>";
+        // 【重要】カウントリセット用の記述 セットが変わってもカウントは動いてしまうので止めるために必須
+        let retenCount = dateCount;
+        
+        // 1週間の処理
+        for (let l = 0; l < 7; l++) {
+            // 行の計算式 これをベースにifを展開する
+            let lineRow = (k % 3);
+            
+            // 月初の前、月末の後の空欄を計算しないための記述
+            let nowDate = !((k < 3 && l < firstDay) || retenCount > lastDate);
+            
+            // カレンダー生成の核 行ごとの処理を記述
+            if (lineRow === 0) {
+                row += `<td colspan="2">${nowDate ? retenCount : ""}</td>`;
+            } else if (lineRow === 1) {
+                row += nowDate ? `<td>午前</td><td>午後</td>` : `<td></td><td></td>`;
+            } else if (lineRow === 2) {
+                if (nowDate) {
+                    // 
+                    const weekend = (l === 0 || l === 6);
+                    const data = calendarData[retenCount - 1];
+                    let amHl = weekend ? "休" : data.am;
+                    let pmHl = weekend ? "休" : data.pm;
+                    row += `<td>${amHl}</td><td>${pmHl}</td>`;
+                } else {
+                    row += `<td></td><td></td>`;
+                }
+            }
+            
+            // 
+            if (!(k < 3 && l < firstDay)) {
+                retenCount++;
+            }
+        }
+
+        row += "</tr>";
+        calendarRow += row;
+        
+        // 【重要】さっきのカウントリセット用の記述 3行目からようやくカウントが動き出す
+        if (lineRow === 2) {
+            dateCount = retenCount;
+        }
+        
+        if (dateCount > lastDate && lineRow === 2) break;
+    }
+    
+    return `
+    <table border="0" cellpadding="0" cellspacing="0" width="1000">
+        <tbody>
+            <tr><td colspan="14">${year}年${month}月</td></tr>
+            <tr><td colspan="2" style="background: #999;">日</td>
+            <td colspan="2" style="background: #999;">月</td>
+            <td colspan="2" style="background: #999;">火</td>
+            <td colspan="2" style="background: #999;">水</td>
+            <td colspan="2" style="background: #999;">木</td>
+            <td colspan="2" style="background: #999;">金</td>
+            <td colspan="2" style="background: #999;">土</td>
+            </tr>
+            ${calendarRow}
+        </tbody>
+    </table>`;
 }
