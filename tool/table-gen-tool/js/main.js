@@ -184,17 +184,19 @@ function generateCalendarHtml(year, month, calendarData) {
         // 1週間の処理
         for (let l = 0; l < 7; l++) {
             // 行の計算式 これをベースにifを展開する
-            let lineRow = (k % 3);
+            let firstRow = (k % 3 === 0);
+            let secondRow = (k % 3 === 1);
+            let thirdRow = (k % 3 === 2);
             
             // 月初の前、月末の後の空欄を計算しないための記述
             let nowDate = !((k < 3 && l < firstDay) || retenCount > lastDate);
             
             // カレンダー生成の核 行ごとの処理を記述
-            if (lineRow === 0) {
+            if (firstRow) {
                 row += `<td colspan="2">${nowDate ? retenCount : ""}</td>`;
-            } else if (lineRow === 1) {
+            } else if (secondRow) {
                 row += nowDate ? `<td>午前</td><td>午後</td>` : `<td></td><td></td>`;
-            } else if (lineRow === 2) {
+            } else if (thirdRow) {
                 if (nowDate) {
                     // 
                     const weekend = (l === 0 || l === 6);
@@ -217,11 +219,11 @@ function generateCalendarHtml(year, month, calendarData) {
         calendarRow += row;
         
         // 【重要】さっきのカウントリセット用の記述 3行目からようやくカウントが動き出す
-        if (lineRow === 2) {
+        if (k % 3 === 2) {
             dateCount = retenCount;
         }
         
-        if (dateCount > lastDate && lineRow === 2) break;
+        if (dateCount > lastDate && k % 3 === 2) break;
     }
     
     return `
@@ -240,3 +242,50 @@ function generateCalendarHtml(year, month, calendarData) {
         </tbody>
     </table>`;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  【カレンダー出力用イベントリスナー】＊＊ボタンクリック時の処理＊＊
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOMのクラスを取得
+const generateBtn = document.querySelector(".generate-btn");
+const inputField = document.querySelector(".input-field");
+
+// カレンダー出力のイベントリスナー
+generateBtn.addEventListener("click", () => {
+    // 年月欄が空の時の処理
+    if (!monthInput.value) {
+        alert("年月入力欄が空です。");
+        return;
+    }
+    
+    // データ入力欄を取得
+    const inputValue = inputField.value.trim();
+    
+    // データ入力欄が空の時の処理
+    if (inputValue === "") {
+        alert("データ入力欄が空です。");
+        return;
+    }
+    
+    // 年月欄をハイフンで分割 その後に数値に変えて年と月を取得
+    const [inputYear, inputMonth] = monthInput.value.split("-");
+    const year = Number(inputYear);
+    const month = Number(inputMonth);
+    
+    // 【重要】データ管理関数に入力欄のデータを渡す
+    const cleanedCalendarData = keepDigitsAndBuildCalendar(inputValue);
+    // 【重要】HTML生成関数へデータを渡す
+    const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
+    
+    // ダウンロードの処理
+    const blob = new Blob([calendarHtmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${year}年${month}月_カレンダー.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    inputField.value = "";
+    alert(`カレンダーの生成／ダウンロードが完了しました。`);
+});
