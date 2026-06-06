@@ -15,6 +15,25 @@ export default function App() {
         setIsOpen(true);
     }
     }
+    // カレンダーのデータ管理／生成
+    function keepDigitsAndBuildCalendar() {
+       // 無から「満」が入っている31日分の配列データを生成
+       const initialCalendar = Array.from({length: 31}, () => ({
+        am: "満",
+        pm: "満"
+       }));
+       
+       // ↑で作った31日分のデータを初期データとして設定。
+       const [calendarItems, calendarSetItems] = useState(initialCalendar);
+       
+       const daysStatus = (inputData) => {
+        // TextInputから入力データ取得
+        const inputValue = inputData.target.value;
+        // 31日分のデータをコピー
+        const nextCalendar = [...initialCalendar];
+       }
+    }
+
     // CSS
     const styles = {
     container: {
@@ -30,12 +49,12 @@ export default function App() {
       visibility: isOpen ? 'visible' : 'hidden'
     }
     };
-    
+
     return (
         <div>
             <button onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
-                <MonthInput/>
+                <MonthInput text={}/>
                 <TextInput/>
                 <GenerateBtn/>
             </div>
