@@ -6,32 +6,86 @@ import GenerateBtn from "./GenerateBtn";
 
 export default function App() {
     // JS
-    // トグルボタンの処理 初期値は閉じてる
+    // トグルボタンの処理 初期値は閉じている
     const [isOpen, setIsOpen] = useState(false);
     const toggleBtn = () => {
       if (isOpen) {
         setIsOpen(false);
-    } else {
-        setIsOpen(true);
+      } else {
+          setIsOpen(true);
+      }
     }
-    }
-    // カレンダーのデータ管理／生成
-    function keepDigitsAndBuildCalendar() {
-       // 無から「満」が入っている31日分の配列データを生成
-       const initialCalendar = Array.from({length: 31}, () => ({
-        am: "満",
-        pm: "満"
-       }));
-       
-       // ↑で作った31日分のデータを初期データとして設定。
-       const [calendarItems, calendarSetItems] = useState(initialCalendar);
-       
-       const daysStatus = (inputData) => {
-        // TextInputから入力データ取得
-        const inputValue = inputData.target.value;
-        // 31日分のデータをコピー
-        const nextCalendar = [...initialCalendar];
-       }
+    // 現在の年月を取得
+    const nowData = new Date();
+    const targetYear = nowData.getFullYear();
+    const targetMonth = String(nowData.getMonth() + 1).padStart(2, "0");
+    const [monthValue, setMonthValue] = useState(`${targetYear}-${targetMonth}`);
+
+    // インプットタグの入力値設定
+    const [inputValue, setInputValue] = useState("");
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///  【カレンダー用関数】
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function keepDigitsAndBuildCalendar(inputData) {
+
+    let calendarResults = Array.from({ length: 31 }, function() {
+        return {
+            am: "満",
+            pm: "満"
+        };
+    });
+    
+    const inputParts = inputData.split(/[，,、\s]+/);
+    
+    inputParts.forEach((iPart) => {
+        const targetHl = /休$/i.test(iPart);
+        const targetAm = /am$/i.test(iPart);
+        const targetPm = /pm$/i.test(iPart);
+
+        let strDelete = iPart.replace(/[apmAPM]/g, "");
+        let converPart = strDelete.replace(/[０-９]/g, function(s) {
+            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+        });
+        let cleanPart = converPart.replace(/[休]/g, "");
+
+        const daysStatus = (day) => {
+            if (day >= 1 && day <= 31) {
+                let holOrEmpty = "空";
+                if (targetHl === true) {
+                    holOrEmpty = "休";
+                }
+                if (targetAm === true) {
+                    calendarResults[day - 1].am = holOrEmpty;
+                } else if (targetPm === true) {
+                    calendarResults[day - 1].pm = holOrEmpty;
+                } else {
+                    calendarResults[day - 1].am = holOrEmpty;
+                    calendarResults[day - 1].pm = holOrEmpty;
+                }
+            }
+        };
+        
+        if (cleanPart.includes("-") || cleanPart.includes("~") || cleanPart.includes("ー") || cleanPart.includes("～")) {
+            const hyphenDel = cleanPart.split(/[-~ー～]/);
+            const start = Number(hyphenDel[0]);
+            const end = Number(hyphenDel[1]);
+            
+            if (!isNaN(start) && !isNaN(end)) {
+                const s = Math.min(start, end);
+                const e = Math.max(start, end);
+                for (let j = s; j <= e; j = j + 1) {
+                    daysStatus(j);
+                }
+            }
+        } else {
+            const singleNb = Number(cleanPart);
+            if (!isNaN(singleNb)) {
+                daysStatus(singleNb);
+            }
+        }
+        
+        return calendarResults;
+    });
     }
 
     // CSS
@@ -54,7 +108,7 @@ export default function App() {
         <div>
             <button onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
-                <MonthInput text={}/>
+                <MonthInput textVal={}/>
                 <TextInput/>
                 <GenerateBtn/>
             </div>
