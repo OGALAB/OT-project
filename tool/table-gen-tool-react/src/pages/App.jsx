@@ -194,7 +194,30 @@ export default function App() {
             alert("データ入力欄が空です。");
             return;
         }
-    }
+        
+        // 年月欄をハイフンで分割 その後に数値に変えて年と月を取得
+        const [inputYear, inputMonth] = monthValue.split("-");
+        const year = Number(inputYear);
+        const month = Number(inputMonth);
+        
+        // データ管理関数に入力欄のデータを渡す
+        const cleanedCalendarData = keepDigitsAndBuildCalendar(trimInputValue);
+        // HTML生成関数へデータを渡す
+        const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
+        
+        // ダウンロードの処理
+        const blob = new Blob([calendarHtmlContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${year}年${month}月_カレンダー.html`;
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        // 入力欄のクリアとアラートを記述
+        setInputValue("");
+        alert(`カレンダーの生成／ダウンロードが完了しました。`);
+    };
     
     // CSS
     const styles = {
