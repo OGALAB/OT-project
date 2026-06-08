@@ -6,7 +6,7 @@ import GenerateBtn from "./GenerateBtn";
 
 export default function App() {
     // JS
-    // トグルボタンの処理 初期値は閉じている
+    // トグルボタンの処理 初期値はクローズ
     const [isOpen, setIsOpen] = useState(false);
     const toggleBtn = () => {
       if (isOpen) {
@@ -28,26 +28,32 @@ export default function App() {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function keepDigitsAndBuildCalendar(inputData) {
 
+    // 項目全てに「満」が入った配列を作成
     let calendarResults = Array.from({ length: 31 }, function() {
         return {
             am: "満",
             pm: "満"
         };
     });
-    
+
+    // 入力データをカンマ、スペース、タブで区切って配列に入れる
     const inputParts = inputData.split(/[，,、\s]+/);
-    
+
+    // 区切った配列の各文字列に処理を追加
     inputParts.forEach((iPart) => {
+        // 休、午前、午後の検索結果を変数に格納
         const targetHl = /休$/i.test(iPart);
         const targetAm = /am$/i.test(iPart);
         const targetPm = /pm$/i.test(iPart);
 
+        // 文字列から不要な要素を削除（am、pm、休）、全角数字も半角に変更
         let strDelete = iPart.replace(/[apmAPM]/g, "");
         let converPart = strDelete.replace(/[０-９]/g, function(s) {
             return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
         });
         let cleanPart = converPart.replace(/[休]/g, "");
 
+        // 下のforとifで貰った数値を引数dayに渡して番号として管理 ＋ amとpmに既に埋めてある「満」を条件によって「休」か「空」に変更
         const daysStatus = (day) => {
             if (day >= 1 && day <= 31) {
                 let holOrEmpty = "空";
@@ -64,19 +70,24 @@ export default function App() {
                 }
             }
         };
-        
+
+        //  綺麗にした配列（cleanPart）にハイフン類（-~ー～）が含まれているか確認
         if (cleanPart.includes("-") || cleanPart.includes("~") || cleanPart.includes("ー") || cleanPart.includes("～")) {
+            // ハイフンで区切った文字列を配列に再格納、配列の1番目と2番目の数値を取得し変数に格納
             const hyphenDel = cleanPart.split(/[-~ー～]/);
             const start = Number(hyphenDel[0]);
             const end = Number(hyphenDel[1]);
-            
+
+            // startとendの両方が、有効な数値の場合の処理
             if (!isNaN(start) && !isNaN(end)) {
-                const s = Math.min(start, end);
-                const e = Math.max(start, end);
+                const s = Math.min(start, end); // 最小値を取得
+                const e = Math.max(start, end); // 最大値を取得
+                // daysStatus関数に「表示用」の数値を代入する
                 for (let j = s; j <= e; j = j + 1) {
                     daysStatus(j);
                 }
             }
+        // 数値にハイフンが無い場合の処理
         } else {
             const singleNb = Number(cleanPart);
             if (!isNaN(singleNb)) {
@@ -84,6 +95,7 @@ export default function App() {
             }
         }
         
+        // 完成した31日分のデータを戻り値として外に返す
         return calendarResults;
     });
     }
@@ -108,8 +120,8 @@ export default function App() {
         <div>
             <button onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
-                <MonthInput textVal={}/>
-                <TextInput/>
+                <MonthInput value={monthValue}/>
+                <TextInput value={inputValue}/>
                 <GenerateBtn/>
             </div>
         </div>

@@ -1,5 +1,5 @@
 // TextInput.jsx
-function TextInput(textValue, textChange) {
+function TextInput({value, onChange}) {
   // CSS
   const styles = {
     input: {
@@ -29,7 +29,7 @@ function TextInput(textValue, textChange) {
   return (
     <>
       <label>×日／休日を記入↓</label>
-      <input type="text" value={textValue} onChange={textChange} style={styles.input}></input>
+      <input type="text" value={value} onChange={onChange} style={styles.input}></input>
       <p style={styles.p}>※入力例：1,2-4,5am,6pm,7~15休<br/>※5-7pmなどの範囲指定も可</p>
     </>
   );

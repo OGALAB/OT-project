@@ -1,5 +1,5 @@
 // MonthInput.jsx
-function MonthInput() {
+function MonthInput({value, onChange}) {
   // CSS
   const styles = {
     input: {
@@ -14,7 +14,7 @@ function MonthInput() {
   
   return (
     <>
-      <input type="month" style={styles.input}></input>
+      <input type="month" value={value} onChange={onChange} style={styles.input}></input>
     </>
   );
 }
