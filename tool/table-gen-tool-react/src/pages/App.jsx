@@ -185,6 +185,15 @@ export default function App() {
             alert("年月入力欄が空です。");
             return;
         }
+        
+        // valueは無しで取得したデータ入力欄をトリミング
+        const trimInputValue = inputValue.trim();
+        
+        // データ入力欄が空の時の処理
+        if (trimInputValue === "") {
+            alert("データ入力欄が空です。");
+            return;
+        }
     }
     
     // CSS
