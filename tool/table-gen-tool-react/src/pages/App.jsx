@@ -239,9 +239,9 @@ export default function App() {
         <div>
             <button onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
-                <MonthInput value={monthValue}/>
-                <TextInput value={inputValue}/>
-                <GenerateBtn/>
+                <MonthInput value={monthValue} onChange={(e) => setMonthValue(e.target.value)}/>
+                <TextInput value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
+                <GenerateBtn onClick={calendarDownloadButton}/>
             </div>
         </div>
     );
