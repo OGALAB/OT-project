@@ -130,8 +130,33 @@ export default function App() {
                     row += `<td colspan="2">${nowDate ? retenCount : ""}</td>`;
                 } else if (secondRow) {
                     row += nowDate ? `<td>午前</td><td>午後</td>` : `<td></td><td></td>`;
+                } else if (thirdRow) {
+                    if (nowDate) {
+                        const weekend = (l === 0 || l === 6);
+                        const data = calendarData[retenCount - 1];
+                        let amHl = weekend ? "休" : data.am;
+                        let pmHl = weekend ? "休" : data.pm;
+                        row += `<td>${amHl}</td><td>${pmHl}</td>`;
+                    } else {
+                        row += `<td></td><td></td>`;
+                    }
+                }
+                // 空欄以外をカウントする
+                if (!(k < 3 && l < firstDay)) {
+                    retenCount++;
                 }
             }
+
+            row += "</tr>";
+            calendarRow += row;
+            
+            // 3セット目から再カウント
+            if (k % 3 === 2) {
+                dateCount = retenCount;
+            }
+            // カウントが最終日を超えて、その週のセットが終わった時にカレンダー作成を強制終了
+            if (dateCount > lastDate && k % 3 === 2) break;
+        }
     }
 
     // CSS
