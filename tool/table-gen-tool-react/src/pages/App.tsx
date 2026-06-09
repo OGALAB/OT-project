@@ -4,8 +4,8 @@ import MonthInput from "./MonthInput";
 import TextInput from "./TextInput";
 import GenerateBtn from "./GenerateBtn";
 
-// 「満」が入っている配列を型定義
-interface CalendarData {
+// am、pmに入る値を文字列として型定義
+interface CalendarInitialData {
     am: string;
     pm: string;
 }
@@ -32,10 +32,11 @@ export default function App() {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///  【データ管理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function keepDigitsAndBuildCalendar(inputData) {
+    // データ管理関数で最終的にreturnされる物がCalendarInitialData配列に入る様に型定義 引数inputDataも文字列として型定義
+    function keepDigitsAndBuildCalendar(inputData: string): CalendarInitialData[] {
 
-    // 項目全てに「満」が入った配列を作成
-    let calendarResults = Array.from({ length: 31 }, function() {
+    // この関数内のreturnがCalendarInitialData配列に入る様に型定義
+    let calendarResults: CalendarInitialData[] = Array.from({ length: 31 }, function(): CalendarInitialData {
         return {
             am: "満",
             pm: "満"
