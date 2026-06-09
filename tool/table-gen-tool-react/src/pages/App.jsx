@@ -24,7 +24,7 @@ export default function App() {
     // インプットタグの入力値設定
     const [inputValue, setInputValue] = useState("");
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///  【カレンダー用関数】
+    ///  【データ管理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function keepDigitsAndBuildCalendar(inputData) {
 
@@ -94,12 +94,14 @@ export default function App() {
                 daysStatus(singleNb);
             }
         }
-        
+    });
         // 完成した31日分のデータを戻り値として外に返す
         return calendarResults;
-    });
     }
-    
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///  【HTML生成関数】
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function generateCalendarHtml(year, month, calendarData) {
         // 月初、月末の取得
         const firstDay = new Date(year, month - 1, 1).getDay();
@@ -177,7 +179,7 @@ export default function App() {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///  【カレンダー生成ボタンの処理】
+    ///  【ダウンロード処理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const calendarDownloadButton = () => {
         // 年月欄が空の時の処理
@@ -232,12 +234,22 @@ export default function App() {
       opacity: isOpen ? 1 : 0,
       transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
       visibility: isOpen ? 'visible' : 'hidden'
+    },
+    toggleBtn: {
+        display: 'block',
+        backgroundColor: '#efefef',
+        padding: '8px 12px',
+        borderRadius: '4px',
+        marginBottom: '5px',
+        border: 'none',
+        cursor: 'pointer',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
     }
     };
 
     return (
         <div>
-            <button onClick={toggleBtn}>📅</button>
+            <button style={styles.toggleBtn} onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
                 <MonthInput value={monthValue} onChange={(e) => setMonthValue(e.target.value)}/>
                 <TextInput value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>

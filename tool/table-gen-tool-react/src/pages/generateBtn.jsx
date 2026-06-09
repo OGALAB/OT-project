@@ -1,5 +1,5 @@
 // GenerateBtn.jsx
-function GenerateBtn() {
+function GenerateBtn({onClick}) {
   // CSS
   const styles = {
     btn: {
@@ -15,7 +15,7 @@ function GenerateBtn() {
 
   return (
     <>
-    <button styles={styles.btn}>実行</button>
+    <button style={styles.btn} onClick={onClick}>実行</button>
     </>
   );
 }
