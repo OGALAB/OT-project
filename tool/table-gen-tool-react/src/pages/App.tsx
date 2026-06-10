@@ -14,7 +14,8 @@ export default function App() {
     // JS
     // トグルボタンの処理 初期値はクローズ
     const [isOpen, setIsOpen] = useState(false);
-    const toggleBtn = () => {
+    // 戻り値がないトグルボタン関数にvoidを指定
+    const toggleBtn = (): void => {
       if (isOpen) {
         setIsOpen(false);
       } else {
@@ -60,7 +61,8 @@ export default function App() {
         let cleanPart = converPart.replace(/[休]/g, "");
 
         // 下のforとifで貰った数値を引数dayに渡して番号として管理 ＋ amとpmに既に埋めてある「満」を条件によって「休」か「空」に変更
-        const daysStatus = (day) => {
+        // numberとしてを型定義、関数の戻り値にvoidを指定
+        const daysStatus = (day: number): void => {
             if (day >= 1 && day <= 31) {
                 let holOrEmpty = "空";
                 if (targetHl === true) {
@@ -108,7 +110,7 @@ export default function App() {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///  【HTML生成関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function generateCalendarHtml(year, month, calendarData) {
+    function generateCalendarHtml(year: number, month: number, calendarData: CalendarInitialData) {
         // 月初、月末の取得
         const firstDay = new Date(year, month - 1, 1).getDay();
         const lastDate = new Date(year, month, 0).getDate();
@@ -187,7 +189,8 @@ export default function App() {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///  【ダウンロード処理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    const calendarDownloadButton = () => {
+    // 戻り値がないダウンロードボタン関数にvoidを指定
+    const calendarDownloadButton = (): void => {
         // 年月欄が空の時の処理
         if (!monthValue) {
             alert("年月入力欄が空です。");
