@@ -1,5 +1,12 @@
 // TextInput.jsx
-function TextInput({value, onChange}) {
+import React from "react";
+
+interface TextInputItems {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function TextInput({value, onChange}: TextInputItems) {
   // CSS
   const styles = {
     input: {
