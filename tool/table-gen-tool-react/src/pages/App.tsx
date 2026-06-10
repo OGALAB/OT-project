@@ -4,7 +4,7 @@ import MonthInput from "./MonthInput";
 import TextInput from "./TextInput";
 import GenerateBtn from "./GenerateBtn";
 
-// am、pmに入る値を文字列として型定義
+// 関数の外で、amとpmに入る値を文字列として型定義（この時点では配列や変数と決まっている訳では無い）
 interface CalendarInitialData {
     am: string;
     pm: string;
@@ -30,12 +30,11 @@ export default function App() {
     // インプットタグの入力値設定
     const [inputValue, setInputValue] = useState("");
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///  【データ管理関数】
+    ///  【データ管理関数】データ管理関数で最終的に外に返される要素がCalendarInitialData配列に入る様に型定義
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // データ管理関数で最終的にreturnされる物がCalendarInitialData配列に入る様に型定義 引数inputDataも文字列として型定義
     function keepDigitsAndBuildCalendar(inputData: string): CalendarInitialData[] {
 
-    // この関数内のreturnがCalendarInitialData配列に入る様に型定義
+    // 文字列が入った要素を1個ずつ戻り値として受け取り、最終的にそれを31日分の配列として変数に入れる
     let calendarResults: CalendarInitialData[] = Array.from({ length: 31 }, function(): CalendarInitialData {
         return {
             am: "満",
@@ -43,11 +42,11 @@ export default function App() {
         };
     });
 
-    // 入力データをカンマ、スペース、タブで区切って配列に入れる
-    const inputParts = inputData.split(/[，,、\s]+/);
+    // 区切った要素を文字列の配列として型定義し変数に格納
+    const inputParts: string[] = inputData.split(/[，,、\s]+/);
 
-    // 区切った配列の各文字列に処理を追加
-    inputParts.forEach((iPart) => {
+    // forEach処理を加える引数を文字列として型定義
+    inputParts.forEach((iPart: string) => {
         // 休、午前、午後の検索結果を変数に格納
         const targetHl = /休$/i.test(iPart);
         const targetAm = /am$/i.test(iPart);
