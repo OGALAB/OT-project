@@ -1,4 +1,4 @@
-// MonthInput.jsx
+// MonthInput.tsx
 import React from "react";
 
 interface MonthInputItems {

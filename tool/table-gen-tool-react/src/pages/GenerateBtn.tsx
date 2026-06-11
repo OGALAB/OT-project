@@ -1,5 +1,10 @@
-// GenerateBtn.jsx
-function GenerateBtn({onClick}) {
+// GenerateBtn.tsx
+import React from 'react';
+interface GenerateBtnItems {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+function GenerateBtn({onClick}: GenerateBtnItems) {
   // CSS
   const styles = {
     btn: {

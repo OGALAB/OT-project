@@ -1,4 +1,4 @@
-// TextInput.jsx
+// TextInput.tsx
 import React from "react";
 
 interface TextInputItems {
