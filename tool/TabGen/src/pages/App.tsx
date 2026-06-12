@@ -190,7 +190,7 @@ export default function App() {
     ///  【ダウンロード処理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 戻り値がないダウンロードボタン関数にvoidを指定
-    const calendarDownloadButton = (): void => {
+    const calendarDownloadButton = async () => {
         // 年月欄が空の時の処理
         if (!monthValue) {
             alert("年月入力欄が空です。");
@@ -216,18 +216,22 @@ export default function App() {
         // HTML生成関数へデータを渡す
         const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
         
-        // ダウンロードの処理
-        const blob = new Blob([calendarHtmlContent], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${year}年${month}月_カレンダー.html`;
-        a.click();
-        URL.revokeObjectURL(url);
+        // クリップボードにデータを保存
+        try {
+            const htmlblob = new Blob([calendarHtmlContent], {type: 'text/html'});
+            const clipboardItem = new ClipboardItem({
+               'text/html': htmlblob
+        });
+        
+        await navigator.clipboard.write([clipboardItem]);   
         
         // 入力欄のクリアとアラートを記述
         setInputValue("");
-        alert(`カレンダーの生成／ダウンロードが完了しました。`);
+        alert(`カレンダーの生成／コピーが完了しました。`);
+        } catch (err) {
+            console.error("コピーに失敗しました:", err);
+            alert("クリップボードへのコピーに失敗しました。");
+        }
     };
     
     // CSS
