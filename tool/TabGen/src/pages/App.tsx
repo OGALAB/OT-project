@@ -114,41 +114,41 @@ export default function App() {
         // 月初、月末の取得
         const firstDay = new Date(year, month - 1, 1).getDay();
         const lastDate = new Date(year, month, 0).getDate();
-        
+
         // カレンダーのHTML用空配列とカウント用変数
         let calendarRow = "";
         let dateCount = 1;
-        
+
         // 全体の行
         for (let k = 0; k < 18; k++) {
             let row = "<tr>";
             // カウントリセット用の記述
             let retenCount = dateCount;
-            
+
             // 1週間の処理
             for (let l = 0; l < 7; l++) {
                 // 行の計算式 これをベースにifを展開する
                 let firstRow = (k % 3 === 0);
                 let secondRow = (k % 3 === 1);
                 let thirdRow = (k % 3 === 2);
-                
+
                 // 月初、月末の前後を計算しないための記述
                 let nowDate = !((k < 3 && l < firstDay) || retenCount > lastDate);
-                
+
                 // 3セットの処理
                 if (firstRow) {
-                    row += `<td colspan="2">${nowDate ? retenCount : ""}</td>`;
+                    row += `<td colspan="2">${nowDate ? retenCount : ""}</td>\n`;
                 } else if (secondRow) {
-                    row += nowDate ? `<td>午前</td><td>午後</td>` : `<td></td><td></td>`;
+                    row += nowDate ? `<td>午前</td>\n<td>午後</td>\n` : `<td></td>\n<td></td>\n`;
                 } else if (thirdRow) {
                     if (nowDate) {
                         const weekend = (l === 0 || l === 6);
                         const data = calendarData[retenCount - 1];
                         let amHl = weekend ? "休" : data.am;
                         let pmHl = weekend ? "休" : data.pm;
-                        row += `<td>${amHl}</td><td>${pmHl}</td>`;
+                        row += `<td>${amHl}</td>\n<td>${pmHl}</td>\n`;
                     } else {
-                        row += `<td></td><td></td>`;
+                        row += `<td></td>\n<td></td>\n`;
                     }
                 }
                 // 空欄以外をカウントする
@@ -170,35 +170,32 @@ export default function App() {
         
         // 生成したHTMLを戻り値として外に返す
         return `
-        <table border="0" cellpadding="0" cellspacing="0" width="1000">
-            <tbody>
-                <tr><td colspan="14">${year}年${month}月</td></tr>
-                <tr><td colspan="2" style="background: #999;">日</td>
-                <td colspan="2" style="background: #999;">月</td>
-                <td colspan="2" style="background: #999;">火</td>
-                <td colspan="2" style="background: #999;">水</td>
-                <td colspan="2" style="background: #999;">木</td>
-                <td colspan="2" style="background: #999;">金</td>
-                <td colspan="2" style="background: #999;">土</td>
-                </tr>
-                ${calendarRow}
-            </tbody>
-        </table>`;
+<table border="0" cellpadding="0" cellspacing="0" width="1000">
+<tbody><tr><td colspan="14">${year}年${month}月</td>
+</tr><tr><td colspan="2" style="background: #999;">日</td>
+<td colspan="2" style="background: #999;">月</td>
+<td colspan="2" style="background: #999;">火</td>
+<td colspan="2" style="background: #999;">水</td>
+<td colspan="2" style="background: #999;">木</td>
+<td colspan="2" style="background: #999;">金</td>
+<td colspan="2" style="background: #999;">土</td>
+</tr>${calendarRow}</tbody></table>`;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///  【ダウンロード処理関数】
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 戻り値がないダウンロードボタン関数にvoidを指定
-    const calendarDownloadButton = (): void => {
+    const calendarDownloadButton = async () => {
         // 年月欄が空の時の処理
         if (!monthValue) {
             alert("年月入力欄が空です。");
             return;
         }
+
         // valueは無しで取得したデータ入力欄をトリミング
         const trimInputValue = inputValue.trim();
-
+        
         // データ入力欄が空の時の処理
         if (trimInputValue === "") {
             alert("データ入力欄が空です。");
@@ -216,19 +213,25 @@ export default function App() {
         const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
 
         // クリップボードにデータを保存
-        const blob = new Blob([calendarHtmlContent], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${year}年${month}月_カレンダー.html`;
-        a.click();
-        URL.revokeObjectURL(url);
-        
+        try {
+            const htmlblob = new Blob([calendarHtmlContent], {type: 'text/html'});
+            const plainblob = new Blob([calendarHtmlContent], {type: 'text/plain'});
+            const clipboardItem = new ClipboardItem({
+               'text/html': htmlblob,
+               'text/plain': plainblob,
+        });
+
+        await navigator.clipboard.write([clipboardItem]);
+
         // 入力欄のクリアとアラートを記述
         setInputValue("");
-        alert(`カレンダーの生成／ダウンロードが完了しました。`);
+        alert(`カレンダーの生成／コピーが完了しました。／貼り付け（Ctrl+V）をしてください。`);
+        } catch (err) {
+            console.error("コピーに失敗しました:", err);
+            alert("クリップボードへのコピーに失敗しました。");
+        }
     };
-    
+
     // CSS
     const styles: { [key: string]: React.CSSProperties } = {
     container: {
