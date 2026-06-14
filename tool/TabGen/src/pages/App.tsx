@@ -114,27 +114,27 @@ export default function App() {
         // 月初、月末の取得
         const firstDay = new Date(year, month - 1, 1).getDay();
         const lastDate = new Date(year, month, 0).getDate();
-        
+
         // カレンダーのHTML用空配列とカウント用変数
         let calendarRow = "";
         let dateCount = 1;
-        
+
         // 全体の行
         for (let k = 0; k < 18; k++) {
             let row = "<tr>";
             // カウントリセット用の記述
             let retenCount = dateCount;
-            
+
             // 1週間の処理
             for (let l = 0; l < 7; l++) {
                 // 行の計算式 これをベースにifを展開する
                 let firstRow = (k % 3 === 0);
                 let secondRow = (k % 3 === 1);
                 let thirdRow = (k % 3 === 2);
-                
+
                 // 月初、月末の前後を計算しないための記述
                 let nowDate = !((k < 3 && l < firstDay) || retenCount > lastDate);
-                
+
                 // 3セットの処理
                 if (firstRow) {
                     row += `<td colspan="2">${nowDate ? retenCount : ""}</td>\n`;
@@ -192,7 +192,7 @@ export default function App() {
             alert("年月入力欄が空です。");
             return;
         }
-        
+
         // valueは無しで取得したデータ入力欄をトリミング
         const trimInputValue = inputValue.trim();
         
@@ -201,17 +201,17 @@ export default function App() {
             alert("データ入力欄が空です。");
             return;
         }
-        
+
         // 年月欄をハイフンで分割 その後に数値に変えて年と月を取得
         const [inputYear, inputMonth] = monthValue.split("-");
         const year = Number(inputYear);
         const month = Number(inputMonth);
-        
+
         // データ管理関数に入力欄のデータを渡す
         const cleanedCalendarData = keepDigitsAndBuildCalendar(trimInputValue);
         // HTML生成関数へデータを渡す
         const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
-        
+
         // クリップボードにデータを保存
         try {
             const htmlblob = new Blob([calendarHtmlContent], {type: 'text/html'});
@@ -220,9 +220,9 @@ export default function App() {
                'text/html': htmlblob,
                'text/plain': plainblob,
         });
-        
-        await navigator.clipboard.write([clipboardItem]);   
-        
+
+        await navigator.clipboard.write([clipboardItem]);
+
         // 入力欄のクリアとアラートを記述
         setInputValue("");
         alert(`カレンダーの生成／コピーが完了しました。／貼り付け（Ctrl+V）をしてください。`);
@@ -231,7 +231,7 @@ export default function App() {
             alert("クリップボードへのコピーに失敗しました。");
         }
     };
-    
+
     // CSS
     const styles: { [key: string]: React.CSSProperties } = {
     container: {

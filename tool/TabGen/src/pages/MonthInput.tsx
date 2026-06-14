@@ -18,7 +18,7 @@ function MonthInput({value, onChange}: MonthInputItems) {
       marginBottom: '10px'
     }
   };
-  
+
   return (
     <>
       <input type="month" value={value} onChange={onChange} style={styles.input}></input>
