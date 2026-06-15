@@ -167,7 +167,7 @@ export default function App() {
             // カウントが最終日を超えて、その週のセットが終わった時にカレンダー作成を強制終了
             if (dateCount > lastDate && k % 3 === 2) break;
         }
-        
+
         // 生成したHTMLを戻り値として外に返す
         return `
 <table border="0" cellpadding="0" cellspacing="0" width="1000">
@@ -218,7 +218,7 @@ export default function App() {
             const plainblob = new Blob([calendarHtmlContent], {type: 'text/plain'});
             const clipboardItem = new ClipboardItem({
                'text/html': htmlblob,
-               'text/plain': plainblob,
+               'text/plain': plainblob
         });
 
         await navigator.clipboard.write([clipboardItem]);
