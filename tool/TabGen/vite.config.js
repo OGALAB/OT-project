@@ -12,7 +12,7 @@ export default defineConfig({
         name: 'カレンダーHTML生成／転記ツール',
         namespace: 'my-calendar-tool',
         version: '1.0.0',
-        match: ['http://*/*', 'https://*/*'], 
+        match: ['https://*/*'],
         author: 'Ogasawara',
         description: 'テキストの入力からカレンダーHTMLを生成してクリップボードにデータを格納します。',
       },
