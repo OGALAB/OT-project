@@ -10,7 +10,6 @@ interface CalendarInitialData {
     pm: string;
 }
 
-// JS
 //【データ管理関数】
 function keepDigitsAndBuildCalendar(inputData: string): CalendarInitialData[] {
     
@@ -192,6 +191,7 @@ export default function App() {
             return;
         }
 
+        // 年月を分割して数値化
         const [inputYear, inputMonth] = monthValue.split("-");
         const year = Number(inputYear);
         const month = Number(inputMonth);
@@ -201,7 +201,7 @@ export default function App() {
         // HTML生成関数へデータを渡す
         const calendarHtmlContent = generateCalendarHtml(year, month, cleanedCalendarData);
 
-        // クリップボードにデータを保存
+        // データをクリップボードに保存
         try {
             const htmlblob = new Blob([calendarHtmlContent], {type: 'text/html'});
             const plainblob = new Blob([calendarHtmlContent], {type: 'text/plain'});
