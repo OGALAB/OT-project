@@ -1,16 +1,71 @@
-# React + Vite
+# プロジェクト名
+TabGen（カレンダー自動生成／転記ツール）
+> Adobe Experience Manager（AEM）におけるカレンダー更新作業の工数削減、ヒューマンエラーの防止を目的とした業務改善ツールです。本ツールはAEMの編集画面上に直接UIを埋め込む形で動作します。当初はVanilla JSで構築しましたが、運用のしやすさとコードの保守性を高める為に、React及びTypeScriptへのリファクタリングを行いました。
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**[デモサイト](https://ot-project-ivory.vercel.app/)**
+[ツールのメイン画面](./images/tabgen.png)
 
-Currently, two official plugins are available:
+----
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 開発背景
+- **課題**
+  毎月のAEM更新作業において、所属組織の都合上データ更新の自動化が難しく、手作業に依存していた為、日付、予定のズレ等のヒューマンエラーが頻発していた。
 
-## React Compiler
+- **解決案**
+  拡張機能「Tampermonkey」を使用して、対象ページ（AEM）上に直接、専用のUIを埋め込むコードを開発。データ入力から対象箇所へのペーストまでを別タブに移ることなく完結させ、作業スピードの向上、ヒューマンエラーの防止を実現。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+----
 
-## Expanding the ESLint configuration
+## 使い方
+- **入力・自動生成機能**
+  数字＋α（am、pm、休）を入力して実行ボタンを押すだけで、カレンダーを自動生成。（記入例:「1,2-4,5am,6pm,7~15休」など）。
+- **HTML形式でのクリップボード自動保存**
+  Blobを活用し、生成されたカレンダーデータをHTML形式に変換して自動でクリップボードに保存。
+- **AEMへのワンタッチ入稿**
+  カレンダー生成後は、AEMのコンポーネント上で「Ctrl＋V」を押してペーストするだけのシンプルな運用フローを実現。
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+----
+
+## 主な技術
+- **Frontend**: React (TypeScript / JavaScript)
+- **Build Tool**: Vite
+- **API**: Clipboard API, Blob API
+
+----
+
+## こだわりポイント
+- **データ入力時の「めんどくさい」を徹底排除**
+  データ入力時に、各々の入力癖や表記揺れが起こる事を想定して、全角/半角、大文字/小文字をシステムが自動で判別/統一。フォーマットを気にせず、いつも通りの入力でカレンダー生成が可能。
+  また、各種ハイフンを使用した範囲指定の日付を自動で解析し、間にある全ての日付を自動的に補完する事で、1日ずつ入力する手間がかからないフローを実現。
+
+- **Vanilla JS開発時の課題をReact+TypeScript導入で解決**
+  今回の開発ではTampermonkeyの使用が前提だった為、当初はUIの構築からデータ管理までを全てVanilla JSで記述しており、コード量が増え、内容も複雑化していた。
+  しかし、Reactを導入して、入力欄やボタンをコンポーネント化した事でコードの視認性が向上。さらに、State管理になる事でDOM操作が不要になり、同期失敗等のエラーが解消され、保守性も向上。
+  また、カレンダーのAM/PMのデータ構造をTypeScriptのインターフェースで定義する事で、打ち間違い等のエラーをエディタ上で検知し、バグを未然に防ぐ開発環境を構築。
+
+----
+
+## 導入手順（開発者向け）
+### 1. 事前準備
+- **Node.jsのインストール**
+  Node.jsの公式サイトから推奨版（LTS）をダウンロードし、パソコンにインストール。
+
+- **Tampermonkeyのインストール**
+  各種使用ブラウザのウェブストアから、拡張機能「Tampermonkey」をインストール。
+
+### 2. ツールの起動とインストール
+- 1. パソコンのターミナルを開く。
+- 2. `cd "本ツールのフォルダのパス"` を入力して、本ツールのディレクトリに移動。
+- 3. `npm install` を入力して実行し、必要なシステムファイルをインストール。
+- 4. `npm run dev` を入力して実行し、開発サーバーを起動。
+- 5. 起動後、ブラウザ側で自動的に「Tampermonkey」のスクリプトインストール画面が立ち上がる為、インストールボタンをクリックすれば導入完了。
+
+----
+
+## 今後の展望
+- **導入方法の改善**
+  Tampermonkeyを使用したツールだと、環境構築が一般向けでは無い為、非エンジニアメンバーの導入ハードルが高い。
+  その為、本ツールをブラウザのウェブストアからワンクリックで入れられるChrome拡張機能にし、チーム全員が手軽に利用できる環境を目指す。
+  
+- **祝日の自動判定機能を導入**
+  holiday-jp等の祝日判定用のライブラリを本ツールに組み込む事で、祝日データを自動で取得する機能の追加を検討。
