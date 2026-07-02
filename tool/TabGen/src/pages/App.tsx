@@ -224,6 +224,10 @@ export default function App() {
     // CSS
     const styles: { [key: string]: React.CSSProperties } = {
     container: {
+      position: 'fixed',
+      top: '20px',
+      left: '20px',
+      zIndex: 100,
       width: '200px',
       padding: '10px',
       backgroundColor: '#ffffff',
@@ -244,17 +248,11 @@ export default function App() {
         border: 'none',
         cursor: 'pointer',
         boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
-    },
-    fixedTool: {
-            position: 'fixed',
-            top: '20px',
-            left: '20px',
-            zIndex: 100,
-        }
+    }
     };
 
     return (
-        <div style={styles.fixedTool}>
+        <div>
             <button style={styles.toggleBtn} onClick={toggleBtn}>📅</button>
             <div style={styles.container}>
                 <MonthInput value={monthValue} onChange={(e) => setMonthValue(e.target.value)}/>
