@@ -155,13 +155,38 @@ nav a:hover {
 }
 
 .work-grid-content {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
 }
 
 @media (min-width: 768px) {
     .work-grid-content {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     }
+}
+
+.work-block {
+    margin-bottom: 40px;
+}
+
+.work-block h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.work-block p {
+    font-size: 0.95rem;
+}
+
+.range-list {
+    list-style: none;
+}
+
+.range-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    padding: 6px 0;
 }
