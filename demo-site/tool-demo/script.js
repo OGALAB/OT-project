@@ -286,19 +286,15 @@ generateBtn.addEventListener("click", async () => {
            'text/plain': plainblob
         });
 
+        // クリップボードへのコピーを実行
         await navigator.clipboard.write([clipboardItem]);
 
-        document.getElementById('calendarContainer').innerHTML = calendarHtmlContent;
-        document.getElementById('htmlInput').value = calendarHtmlContent.trim();
-
+        // 【修正】画面への反映処理（innerHTMLやvalueの書き換え）を削除しました
         inputField.value = "";
-        alert(`カレンダーの生成／コピーが完了しました。／貼り付け（Ctrl+V）をしてください。`);
+        alert(`${year}年${month}月のカレンダーをクリップボードにコピーしました。\nAEMのHTML編集画面などに貼り付け（Ctrl+V）をしてください。`);
     } catch (err) {
         console.error("コピーに失敗しました:", err);
-        
-        document.getElementById('calendarContainer').innerHTML = calendarHtmlContent;
-        document.getElementById('htmlInput').value = calendarHtmlContent.trim();
-        inputField.value = "";
-        alert(`${year}年${month}月のカレンダーをプレビューに反映しました。（コピー処理はスキップされました）`);
+        // 【修正】コピー失敗時のプレビュー反映処理も削除し、ブラウザの権限確認などを促すアラートのみにしています
+        alert("クリップボードへのコピーに失敗しました。ブラウザのコピー権限などを確認してください。");
     }
 });

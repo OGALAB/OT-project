@@ -97,10 +97,6 @@ body {
     padding: 4px 0 20px 0;
 }
 
-.is-off-day {
-    color: #999999 !important;
-}
-
 .aem-toolbar {
     position: absolute;
     top: -35px;
