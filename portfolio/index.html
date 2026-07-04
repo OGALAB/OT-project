@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OT Portfolio</title>
+<meta name="robots" content="noindex">
+<title>Ogasawara Portfolio</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -14,7 +15,7 @@
 <!-- header -->
 <header>
   <div class="container">
-    <div class="title-logo">OGALAB</div>
+    <div class="title-logo">Ogasawara Code</div>
     <nav>
       <ul>
         <li><a href="#about">ABOUT</a></li>
@@ -29,6 +30,7 @@
 <section class="main">
   <div class="container">
     <h1 class="main-title">OT Portfolio</h1>
+    <p class="main-catchphrase">フロントエンドエンジニア 小笠原のポートフォリオサイトです。</p>
     
     <div class="btn-content">
       <a href="#work" class="btn btn-b-color">制作物の詳細を見る</a>
@@ -41,7 +43,7 @@
   <div class="container">
     <h2 class="section-title">ABOUT</h2>
     <div class="about-content">
-      <p class="about-text">フロントエンドエンジニアとして3年間、既存Webサイトの改修及び新規サイトの実装業務に従事してきました。</p>
+      <p class="about-text">専門学校でプログラミング、Webデザインを学び、卒業後はフロントエンドエンジニアとして3年間、新規Webサイトの実装及び既存Webサイトの改修業務に従事してきました。</p>
       <p class="about-test-sm">「ただ指示通りに実装する」だけで無く、全体の仕様をより深く確認し、リスクを未然に防ぐ案件対応を心がけています。</p>
     </div>
   </div>
@@ -125,7 +127,7 @@
 <!-- footer -->
 <footer>
   <div class="container">
-    <p>&copy; 2026 OGALAB All rights reserved.</p>
+    <p>&copy; 2026 Ogasawara All rights reserved.</p>
   </div>
 </footer>
 
@@ -133,7 +135,7 @@
 window.addEventListener('scroll', function() {
     const pageTopBtn = document.querySelector('.top');
     
-    if (window.scrollY >= 200) {
+    if (window.scrollY >= 100) {
         pageTopBtn.classList.add('is-display');
     } else {
         pageTopBtn.classList.remove('is-display');
