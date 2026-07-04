@@ -286,15 +286,12 @@ generateBtn.addEventListener("click", async () => {
            'text/plain': plainblob
         });
 
-        // クリップボードへのコピーを実行
         await navigator.clipboard.write([clipboardItem]);
 
-        // 【修正】画面への反映処理（innerHTMLやvalueの書き換え）を削除しました
         inputField.value = "";
         alert(`${year}年${month}月のカレンダーをクリップボードにコピーしました。\nAEMのHTML編集画面などに貼り付け（Ctrl+V）をしてください。`);
     } catch (err) {
         console.error("コピーに失敗しました:", err);
-        // 【修正】コピー失敗時のプレビュー反映処理も削除し、ブラウザの権限確認などを促すアラートのみにしています
         alert("クリップボードへのコピーに失敗しました。ブラウザのコピー権限などを確認してください。");
     }
 });
