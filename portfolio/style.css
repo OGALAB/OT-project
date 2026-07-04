@@ -131,24 +131,9 @@ nav a:hover {
     font-size: 0.95rem;
 }
 
-.work-content {
-    margin-bottom: 40px;
-}
-
-.work-tag {
-    display: inline-block;
-    font-size: 0.8rem;
-    background-color: #f4f4f4;
-    border: 0.5px solid #e9e9e9;
-    padding: 4px 12px;
-    border-radius: 4px;
-    margin-right: 8px;
-    margin-bottom: 8px;
-}
-
 .work-h3 {
     font-size: 1.6rem;
-    margin-bottom: 12px;
+    margin-bottom: 40px;
 }
 
 .work-img {
@@ -195,7 +180,7 @@ nav a:hover {
 
 .range-list {
     list-style: none;
-    color: #666666;
+    color: #000000;
 }
 
 .range-list li {
@@ -203,6 +188,10 @@ nav a:hover {
     justify-content: space-between;
     font-size: 0.95rem;
     padding: 6px 0;
+}
+
+.range-list li span {
+    color: #666666;
 }
 
 .work-more-content {
@@ -228,6 +217,44 @@ nav a:hover {
     font-size: 0.8rem;
 }
 
+/* skills */
+.skill-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid #e9e9e9;
+}
+
+.skill-block {
+    margin-bottom: 25px;
+}
+
+.skill-block:last-child {
+    margin-bottom: 0;
+}
+
+.skill-block h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #181818;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-badge {
+    background-color: #f4f4f4;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid #e9e9e9;
+}
+
+/* pagetop */
 .top {
     display: flex;
     height: 70px;
@@ -239,11 +266,18 @@ nav a:hover {
     align-items: center;
     background-color: #fff;
     border-radius: 50%;
-    border: 1.5px solid #797979;
+    border: 0.5px solid #c3c3c3;
     z-index: 100;
     cursor: pointer;
     transition: all 0.4s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.top.is-display {
+    opacity: 1;
+    visibility: visible;
 }
 
 .arrow-top {

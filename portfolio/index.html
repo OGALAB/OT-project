@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<!-- pagetop -->
+<a class="top" href="#"><div class="arrow-top"></div></a>
+
 <!-- header -->
 <header>
   <div class="container">
@@ -15,13 +18,12 @@
     <nav>
       <ul>
         <li><a href="#about">ABOUT</a></li>
+        <li><a href="#skills">SKILLS</a></li>
         <li><a href="#work">WORK</a></li>
       </ul>
     </nav>
   </div>
 </header>
-
-<a class="top" href="#"><div class="arrow-top"></div></a>
 
 <!-- main -->
 <section class="main">
@@ -39,24 +41,41 @@
   <div class="container">
     <h2 class="section-title">ABOUT</h2>
     <div class="about-content">
-      <p class="about-text">フロントエンドエンジニアとして3年間、既存Webサイトの改修および新規作成の業務に従事してきました。</p>
+      <p class="about-text">フロントエンドエンジニアとして3年間、既存Webサイトの改修及び新規サイトの実装業務に従事してきました。</p>
       <p class="about-test-sm">「ただ指示通りに実装する」だけで無く、全体の仕様をより深く確認し、リスクを未然に防ぐ案件対応を心がけています。</p>
     </div>
   </div>
+</section>
+
+<section id="skills" style="background-color: #f0f0f0;">
+    <div class="container">
+        <h2 class="section-title">SKILLS</h2>
+        <div class="skill-container"> 
+        <div class="skill-block">
+            <h3>Frontend</h3>
+            <div class="skill-tags">
+                <span class="skill-badge">HTML / CSS</span>
+                <span class="skill-badge">JavaScript</span>
+                <span class="skill-badge">TypeScript</span>
+                <span class="skill-badge">React</span>
+            </div>
+        </div>
+        <div class="skill-block">
+            <h3>Others</h3>
+            <div class="skill-tags">
+                <span class="skill-badge">Git / GitHub</span>
+                <span class="skill-badge">CMS（AEM）</span>
+            </div>
+        </div>
+        </div>
+    </div>
 </section>
 
 <section id="work">
   <div class="container">
     <h2 class="section-title">WORK</h2>
     
-    <div class="work-content">
-      <h3 class="work-h3">TabGen（AEMカレンダーサイト更新補助ツール）</h3>
-      <div>
-        <span class="work-tag">React</span>
-        <span class="work-tag">TypeScript</span>
-        <span class="work-tag">JavaScript</span>
-      </div>
-    </div>
+    <h3 class="work-h3">TabGen（AEMカレンダーサイト更新補助ツール）</h3>
 
     <div class="work-img">
     </div>
@@ -75,9 +94,9 @@
 
         <div class="work-block">
           <h3>3. 設計・品質のこだわりポイント</h3>
-          <p><span style="display:inline-block; margin-bottom: 5px;"><strong>UIの簡略化</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span><br>
-          <span style="display:inline-block; margin-bottom: 5px;"><strong>コンポーネント設計</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span><br>
-          <span style="display:inline-block; margin-bottom: 5px;"><strong>TypeScriptによる型安全性</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span></p>
+          <p><span style="display:inline-block; margin-bottom: 8px;"><strong>UIの簡略化</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span><br>
+          <span style="display:inline-block; margin-bottom: 8px;"><strong>コンポーネント設計</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span><br>
+          <span style="display:inline-block; margin-bottom: 8px;"><strong>TypeScriptによる型安全性</strong><br>ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト。</span></p>
         </div>
       </div>
 
@@ -85,9 +104,9 @@
         <div class="work-block">
           <h3>担当範囲</h3>
           <ul class="range-list">
-            <li>担当範囲企画・設計・実装</li>
-            <li>開発期間約2ヶ月</li>
-            <li>公開環境Vercel</li>
+            <li>担当範囲<span>企画・設計・実装</span></li>
+            <li>開発期間<span>約2ヶ月</span></li>
+            <li>公開環境<span>Vercel</span></li>
           </ul>
         </div>
       </div>
@@ -109,5 +128,17 @@
     <p>&copy; 2026 OGALAB All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+window.addEventListener('scroll', function() {
+    const pageTopBtn = document.querySelector('.top');
+    
+    if (window.scrollY >= 200) {
+        pageTopBtn.classList.add('is-display');
+    } else {
+        pageTopBtn.classList.remove('is-display');
+    }
+});
+</script>
 </body>
 </html>
