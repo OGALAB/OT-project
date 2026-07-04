@@ -38,7 +38,7 @@ body {
     box-sizing: border-box;
 }
 .aem-component.is-selected {
-    outline: 2px solid #5670b3;
+    outline: 2px solid #0076df;
 }
 
 .calendar-responsive-wrapper, #manualCalendarWrapper {
@@ -105,7 +105,7 @@ body {
     position: absolute;
     top: -35px;
     left: 10px;
-    background: #0076df;
+    background: #5670b3;
     display: none;
     border-radius: 4px 4px 0 0;
     padding: 4px 8px;
