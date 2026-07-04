@@ -195,6 +195,11 @@ nav a:hover {
     border: 1px solid #e9e9e9;
 }
 
+.work-img img {
+    width: 912px;
+    height: 450px;
+}
+
 .work-grid-content {
     display: grid;
     grid-template-columns: 1fr;
@@ -244,7 +249,7 @@ nav a:hover {
 
 .work-more-content {
     margin-top: 60px;
-    padding: 70px 50px;
+    padding: 70px 45px;
     background-color: #f0f0f0;
     text-align: center;
     border-radius: 8px;
