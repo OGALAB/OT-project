@@ -44,7 +44,7 @@
     <h2 class="section-title">ABOUT</h2>
     <div class="about-content">
       <p class="about-text">専門学校でプログラミング、Webデザインを学び、卒業後はフロントエンドエンジニアとして3年間、新規Webサイトの実装及び既存Webサイトの改修業務に従事してきました。</p>
-      <p class="about-test-sm">「ただ指示通りに実装する」だけで無く、全体の仕様をより深く確認し、リスクを未然に防ぐ案件対応を心がけています。</p>
+      <p class="about-text-sm">「ただ指示通りに実装する」だけで無く、全体の仕様をより深く確認し、リスクを未然に防ぐ案件対応を心がけています。</p>
     </div>
   </div>
 </section>
@@ -74,52 +74,62 @@
 </section>
 
 <section id="work">
-  <div class="container">
-    <h2 class="section-title">WORK</h2>
-    
-    <h3 class="work-h3">TabGen（AEMカレンダーサイト更新補助ツール）</h3>
+<div class="container">
+  <h2 class="section-title">WORK</h2>
+  <h3 class="work-h3">TabGen（AEMカレンダーサイト更新補助ツール）</h3>
 
-    <div class="work-img">
+  <div class="work-img">
+    <div class="img-content" onclick="openModal()">
+      <img src="./images/tabgen.png" alt="tabgen" class="tabgen-img">
     </div>
+  </div>
+  
+  <div id="videoModal" class="modal-background" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeModal(event)">×</button>
+      <video id="tabgen-Video" src="./video/tabgen.mp4" playsinline loop muted onclick="toggleVideo(event)"></video>
+      <div id="modalButton" class="play-button" onclick="toggleVideo(event)"></div>
+    </div>
+  </div>
 
-    <div class="work-grid-content">
-      <div>
-        <div class="work-block">
-          <h3>1. 開発の背景と解決したかった課題</h3>
-          <p>所属チームでは、Adobe Experience Manager（AEM）の仕様上、毎月のカレンダー更新を手作業で行っており、更新に時間がかかることや、日付・予定の転記ミスが発生することが課題でした。そこで、入力データからカレンダーを自動生成し、そのままAEMへ貼り付けられる業務改善ツールを開発し、作業時間の短縮とヒューマンエラーの削減を目指しました。</p>
-        </div>
-
-        <div class="work-block">
-          <h3>2. 技術スタックの採用理由</h3>
-          <p>当初はVanilla JavaScriptで開発していましたが、機能追加に伴いコードの肥大化やDOM操作の複雑化が課題となりました。その為、UIのコンポーネント化やState管理が行えるReactを採用し、さらにTypeScriptを導入することで型安全性を高め、保守性と開発効率を向上させました。</p>
-        </div>
-
-        <div class="work-block">
-          <h3>3. 入力しやすさを考慮したUI設計</h3>
-          <p>利用者が入力形式を意識せず使える様に、全角・半角や大文字・小文字、複数種類のハイフンなどの表記揺れを判別・統一する入力処理を実装しました。</p>
-        </div>
+  <div class="work-grid-content">
+    <div>
+      <div class="work-block">
+        <h3>1. 開発の背景と解決したかった課題</h3>
+        <p>所属チームでは、Adobe Experience Manager（AEM）の仕様上、毎月のカレンダー更新を手作業で行っており、更新に時間がかかることや、日付・予定の転記ミスが発生することが課題でした。そこで、入力データからカレンダーを自動生成し、そのままAEMへ貼り付けられる業務改善ツールを開発し、作業時間の短縮とヒューマンエラーの削減を目指しました。</p>
       </div>
 
-      <div class="work-side-content">
-        <div class="work-block">
-          <h3>担当範囲</h3>
-          <ul class="range-list">
-            <li>担当範囲<span>企画・設計・実装</span></li>
-            <li>開発期間<span>約2ヶ月</span></li>
-            <li>公開環境<span>Vercel</span></li>
-          </ul>
-        </div>
+      <div class="work-block">
+        <h3>2. 技術スタックの採用理由</h3>
+        <p>当初はVanilla JavaScriptで開発していましたが、機能追加に伴いコードの肥大化やDOM操作の複雑化が課題となりました。その為、UIのコンポーネント化やState管理が行えるReactを採用し、さらにTypeScriptを導入することで型安全性を高め、保守性と開発効率を向上させました。</p>
+      </div>
+
+      <div class="work-block">
+        <h3>3. 入力しやすさを考慮したUI設計</h3>
+        <p>利用者が入力形式を意識せず使える様に、全角・半角や大文字・小文字、複数種類のハイフンなどの表記揺れを判別・統一する入力処理を実装しました。</p>
       </div>
     </div>
-    <div class="work-more-content">
-      <h4 class="work-more-h4">実際の動作とソースコードはこちら</h4>
-      <p class="work-more-p">本ツールの挙動、及び裏側のソースコード（GitHub）を公開しています。<br><span class="work-more-p-sm">本来はTampermonkeyでの導入が必要ですが、より手軽に触っていただける様に、Webサイト単体で動作する体験版をご用意しました。</span></p>
-      <div class="btn-content" style="justify-content: center; margin-top: 0;">
-        <a href="https://ot-project-mj5f.vercel.app/" target="_blank" class="btn btn-b-color">本番ページを見る</a>
-        <a href="https://github.com/OGALAB/OT-project" target="_blank" class="btn btn-w-color">GitHubを見る</a>
+
+    <div class="work-side-content">
+      <div class="work-block">
+        <h3>担当範囲</h3>
+        <ul class="range-list">
+          <li>担当範囲<span>企画・設計・実装</span></li>
+          <li>開発期間<span>約2ヶ月</span></li>
+          <li>公開環境<span>Vercel</span></li>
+        </ul>
       </div>
     </div>
   </div>
+  <div class="work-more-content">
+    <h4 class="work-more-h4">実際の動作とソースコードはこちら</h4>
+    <p class="work-more-p">本ツールの挙動、及び裏側のソースコード（GitHub）を公開しています。<br><span class="work-more-p-sm">本来はTampermonkeyでの導入が必要ですが、より手軽に触っていただける様に、Webサイト単体で動作する体験版をご用意しました。</span></p>
+    <div class="btn-content" style="justify-content: center; margin-top: 0;">
+      <a href="https://ot-project-five.vercel.app/" target="_blank" class="btn btn-b-color">本番ページを見る</a>
+      <a href="https://github.com/OGALAB/OT-project" target="_blank" class="btn btn-w-color">GitHubを見る</a>
+    </div>
+  </div>
+</div>
 </section>
 
 <!-- footer -->
@@ -129,6 +139,7 @@
   </div>
 </footer>
 
+<!-- js -->
 <script>
 window.addEventListener('scroll', function() {
     const pageTopBtn = document.querySelector('.top');
@@ -139,6 +150,82 @@ window.addEventListener('scroll', function() {
         pageTopBtn.classList.remove('is-display');
     }
 });
+
+let mouseTimeout;
+const HIDE_DELAY = 3000;
+
+function hideControls() {
+    const modal = document.getElementById('videoModal');
+    if (modal && modal.hasAttribute('data-playing')) {
+        modal.classList.add('hide-controls');
+    }
+}
+
+function resetControlTimer() {
+    const modal = document.getElementById('videoModal');
+    if (!modal) return;
+
+    modal.classList.remove('hide-controls');
+
+    clearTimeout(mouseTimeout);
+    mouseTimeout = setTimeout(hideControls, HIDE_DELAY);
+}
+
+function openModal() {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('tabgen-Video');
+  
+  if (!modal || !video) return;
+
+  modal.style.display = 'flex';
+  modal.setAttribute('data-playing', '');
+  modal.removeAttribute('data-paused');
+  video.currentTime = 0;
+  video.play();
+
+  resetControlTimer();
+  modal.addEventListener('mousemove', resetControlTimer);
+  modal.addEventListener('touchstart', resetControlTimer);
+}
+
+function closeModal(event) {
+  if (event.target.classList.contains('modal-background') || event.target.classList.contains('modal-close-btn')) {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('tabgen-Video');
+    
+    if (modal && video) {
+      modal.style.display = 'none'; 
+      video.pause();                 
+      
+      clearTimeout(mouseTimeout);
+      modal.removeEventListener('mousemove', resetControlTimer);
+      modal.removeEventListener('touchstart', resetControlTimer);
+      modal.classList.remove('hide-controls');
+    }
+  }
+}
+
+function toggleVideo(event) {
+  if (event) event.stopPropagation();
+  
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('tabgen-Video');
+
+  if (!modal || !video) return;
+  if (video.paused || modal.hasAttribute('data-paused')) {
+    modal.setAttribute('data-playing', '');
+    modal.removeAttribute('data-paused');
+    video.play();
+    resetControlTimer();
+  } else {
+    modal.setAttribute('data-paused', '');
+    modal.removeAttribute('data-playing');
+    video.pause();
+    
+    clearTimeout(mouseTimeout);
+    modal.classList.remove('hide-controls');
+  }
+}
 </script>
 </body>
 </html>
