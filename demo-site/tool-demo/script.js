@@ -135,34 +135,32 @@ monthInput.value = `${targetYear}-${targetMonth}`;
 
 function keepDigitsAndBuildCalendar(inputData) {
     let calendarResults = Array.from({ length: 31 }, function() {
-        return {
-            am: "満",
-            pm: "満"
-        };
+        return { am: "満", pm: "満" };
     });
 
     const inputParts = inputData.split(/[，,、\s]+/);
 
     inputParts.forEach((iPart) => {
-        const targetHl = /休$/i.test(iPart);
-        const targetAm = /am$/i.test(iPart);
-        const targetPm = /pm$/i.test(iPart);
+        let normalized = iPart
+            .toLowerCase()
+            .replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))
+            .replace(/[ａ-ｚ]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))
+            .replace(/－/g, "-");
 
-        let strDelete = iPart.replace(/[apmAPM]/g, "");
-        let converPart = strDelete.replace(/[０-９]/g, function(s) {
-            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-        });
-        let cleanPart = converPart.replace(/[休]/g, "");
+        const targetHl = /休$/i.test(normalized);
+        const targetAm = /am$/i.test(normalized);
+        const targetPm = /pm$/i.test(normalized);
+
+        let cleanPart = normalized
+            .replace(/[apm]/g, "")
+            .replace(/[休]/g, "");
 
         const daysStatus = (day) => {
             if (day >= 1 && day <= 31) {
-                let holOrEmpty = "空";
-                if (targetHl === true) {
-                    holOrEmpty = "休";
-                }
-                if (targetAm === true) {
+                let holOrEmpty = targetHl ? "休" : "空";
+                if (targetAm) {
                     calendarResults[day - 1].am = holOrEmpty;
-                } else if (targetPm === true) {
+                } else if (targetPm) {
                     calendarResults[day - 1].pm = holOrEmpty;
                 } else {
                     calendarResults[day - 1].am = holOrEmpty;
@@ -179,7 +177,7 @@ function keepDigitsAndBuildCalendar(inputData) {
             if (!isNaN(start) && !isNaN(end)) {
                 const s = Math.min(start, end);
                 const e = Math.max(start, end);
-                for (let j = s; j <= e; j = j + 1) {
+                for (let j = s; j <= e; j++) {
                     daysStatus(j);
                 }
             }
@@ -201,10 +199,6 @@ function generateCalendarHtml(year, month, calendarData) {
     let dateCount = 1;
 
     for (let k = 0; k < 18; k++) {
-        if (dateCount > lastDate && k >= 3 && k % 3 === 0) {
-            break;
-        }
-
         let row = "<tr>";
         let retenCount = dateCount;
 
@@ -241,6 +235,7 @@ function generateCalendarHtml(year, month, calendarData) {
         if (k % 3 === 2) {
             dateCount = retenCount;
         }
+        if (dateCount > lastDate && k % 3 === 2) break;
     }
 
     return `
@@ -295,10 +290,14 @@ generateBtn.addEventListener("click", async () => {
         alert(`カレンダーの生成／コピーが完了しました。／貼り付け（Ctrl+V）をしてください。`);
     } catch (err) {
         console.error("コピーに失敗しました:", err);
+<<<<<<< Updated upstream
         
         document.getElementById('calendarContainer').innerHTML = calendarHtmlContent;
         document.getElementById('htmlInput').value = calendarHtmlContent.trim();
         inputField.value = "";
         alert(`${year}年${month}月のカレンダーをプレビューに反映しました。（コピー処理はスキップされました）`);
+=======
+        alert("クリップボードへのコピーに失敗しました。");
+>>>>>>> Stashed changes
     }
 });
