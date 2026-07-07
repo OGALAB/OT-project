@@ -6,6 +6,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
 }
 
 body {
@@ -78,8 +79,9 @@ header {
     width: 100%;
     position: fixed;
     padding: 20px 0;
-    background-color: #ffffff89;
+    background-color: rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid #e5e5e5;
+    z-index: 100;
 }
 
 header .container {
@@ -98,7 +100,7 @@ nav ul {
     list-style: none;
     gap: 24px;
     font-size: 0.9rem;
-    color: #727272;
+    color: #666666;
 }
 
 nav a {
@@ -137,7 +139,7 @@ nav a:hover {
 }
 
 .about-text-sm {
-    color: #727272;
+    color: #666666;
     font-size: 0.9rem;
 }
 
@@ -145,8 +147,8 @@ nav a:hover {
 .skill-container {
     background-color: #fff;
     padding: 45px;
-    border-radius: 8px;
-    border: 1px solid #e9e9e9;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.02);
 }
 
 .skill-block {
@@ -186,36 +188,31 @@ nav a:hover {
 
 /* img & modal-video */
 .work-img {
-    width: 100%;
-    height: 450px;
     margin-bottom: 60px;
     font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.work-img .sp-ex-text {
+    display: none;
 }
 
 .work-img img {
-    width: 912px;
-    height: 450px;
-}
-
-.img-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    cursor: pointer;
-    width: 500px;
-    max-width: 100%;
-}
-
-.tabgen-img {
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
-    transition: opacity 0.2s;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.02);
+    transition: opacity 0.3s ease;
 }
 
-.img-content:hover .tabgen-img {
-    opacity: 0.6; 
+.work-img:hover {
+    transform: translateY(-3px);
+}
+
+.work-img:hover img {
+    opacity: 0.7;
 }
 
 .modal-background {
@@ -260,7 +257,7 @@ nav a:hover {
 
 .modal-close-btn {
     position: absolute;
-    top: -40px;
+    top: -45px;
     right: 0;
     background-color: transparent;
     border: none;
@@ -286,13 +283,6 @@ nav a:hover {
     cursor: pointer;
     box-sizing: border-box;
     border: 1px solid transparent;
-}
-
-.modal-background .play-button,
-.modal-background[data-paused] .play-button {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 10;
 }
 
 .modal-background .play-button,
@@ -395,7 +385,7 @@ nav a:hover {
     background-color: #f0f0f0;
     text-align: center;
     border-radius: 8px;
-    border: 1.5px solid #dddddd;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.02);
 }
 
 .work-more-h4 {
@@ -417,10 +407,10 @@ nav a:hover {
 .top {
     display: flex;
     height: 70px;
-    width: 7ch;
+    width: 70px;
     position: fixed;
-    right: 60px;
-    bottom: 50px;
+    right: 24px;
+    bottom: 24px;
     justify-content: center;
     align-items: center;
     background-color: #fff;
@@ -460,8 +450,99 @@ nav a:hover {
 
 /* footer */
 footer {
-    padding: 6px 0;
+    padding: 16px 0;
     text-align: center;
     font-size: 0.8rem;
     color: #666666;
+}
+
+/* SPデザイン */
+@media (max-width: 767px) {
+    .top {
+    height: 60px;
+    width: 60px;
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 24px;
+    }
+
+    header {
+        padding: 15px 0;
+    }
+
+    .title-logo {
+        font-size: 1.0rem;
+    }
+
+    nav ul {
+        gap: 16px;
+        font-size: 0.8rem;
+    }
+
+    .main {
+        padding: 120px 0 50px 0;
+    }
+
+    .main-title {
+        font-size: 2.0rem;
+    }
+
+    .main-catchphrase {
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+    }
+
+    .btn-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .skill-container {
+        padding: 24px;
+    }
+
+    .work-h3 {
+        font-size: 1.25rem;
+        margin-bottom: 24px;
+        padding-bottom: 8px;
+    }
+
+    .work-img {
+        margin-bottom: 32px;
+    }
+    
+    .work-img .sp-ex-text {
+        font-size: 0.7rem;
+        color: #666666;
+        text-align: center;
+        display: block;
+    }
+
+    .work-grid-content {
+        gap: 32px;
+    }
+
+    .work-block {
+        margin-bottom: 24px;
+    }
+
+    .work-more-content {
+        margin-top: 40px;
+        padding: 40px 20px;
+    }
+
+    .modal-content {
+        max-width: 95%;
+    }
+
+    .modal-close-btn {
+        top: -50px;
+        right: 5px;
+    }
 }
