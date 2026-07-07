@@ -144,6 +144,10 @@ nav a:hover {
 }
 
 /* skills */
+#skills {
+    background-color: #f0f0f0;
+}
+
 .skill-container {
     background-color: #fff;
     padding: 45px;
