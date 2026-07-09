@@ -1,63 +1,63 @@
-window.addEventListener('scroll', function() {
-    const pageTopBtn = document.querySelector('.top');
+window.addEventListener("scroll", function() {
+    const pageTopBtn = document.querySelector(".top");
     
     if (window.scrollY >= 100) {
-        pageTopBtn.classList.add('is-display');
+        pageTopBtn.classList.add("is-display");
     } else {
-        pageTopBtn.classList.remove('is-display');
+        pageTopBtn.classList.remove("is-display");
     }
 });
 
 let mouseTimeout;
-const HIDE_DELAY = 3000;
+const HIDE_DELAY = 2000;
 
 function hideControls() {
-    const modal = document.getElementById('videoModal');
-    if (modal && modal.hasAttribute('data-playing')) {
-        modal.classList.add('hide-controls');
+    const modal = document.getElementById("videoModal");
+    if (modal && modal.hasAttribute("data-playing")) {
+        modal.classList.add("hide-controls");
     }
 }
 
 function resetControlTimer() {
-    const modal = document.getElementById('videoModal');
+    const modal = document.getElementById("videoModal");
     if (!modal) return;
 
-    modal.classList.remove('hide-controls');
+    modal.classList.remove("hide-controls");
 
     clearTimeout(mouseTimeout);
     mouseTimeout = setTimeout(hideControls, HIDE_DELAY);
 }
 
 function openModal() {
-  const modal = document.getElementById('videoModal');
-  const video = document.getElementById('tabgen-Video');
-  
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("tabgen-Video");
+
   if (!modal || !video) return;
 
   modal.style.display = 'flex';
-  modal.setAttribute('data-playing', '');
-  modal.removeAttribute('data-paused');
+  modal.setAttribute("data-playing", "");
+  modal.removeAttribute("data-paused");
   video.currentTime = 0;
   video.play();
 
   resetControlTimer();
-  modal.addEventListener('mousemove', resetControlTimer);
-  modal.addEventListener('touchstart', resetControlTimer);
+  modal.addEventListener("mousemove", resetControlTimer);
+  modal.addEventListener("touchstart", resetControlTimer);
 }
 
 function closeModal(event) {
-  if (event.target.classList.contains('modal-background') || event.target.classList.contains('modal-close-btn')) {
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('tabgen-Video');
-    
+  if (event.target.classList.contains("modal-background") || event.target.classList.contains("modal-close-btn")) {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("tabgen-Video");
+
     if (modal && video) {
-      modal.style.display = 'none'; 
-      video.pause();                 
+      modal.style.display = "none";
+      video.pause();
       
       clearTimeout(mouseTimeout);
-      modal.removeEventListener('mousemove', resetControlTimer);
-      modal.removeEventListener('touchstart', resetControlTimer);
-      modal.classList.remove('hide-controls');
+      modal.removeEventListener("mousemove", resetControlTimer);
+      modal.removeEventListener("touchstart", resetControlTimer);
+      modal.classList.remove("hide-controls");
     }
   }
 }
@@ -65,21 +65,21 @@ function closeModal(event) {
 function toggleVideo(event) {
   if (event) event.stopPropagation();
   
-  const modal = document.getElementById('videoModal');
-  const video = document.getElementById('tabgen-Video');
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("tabgen-Video");
 
   if (!modal || !video) return;
-  if (video.paused || modal.hasAttribute('data-paused')) {
-    modal.setAttribute('data-playing', '');
-    modal.removeAttribute('data-paused');
+  if (video.paused || modal.hasAttribute("data-paused")) {
+    modal.setAttribute("data-playing", "");
+    modal.removeAttribute("data-paused");
     video.play();
     resetControlTimer();
   } else {
-    modal.setAttribute('data-paused', '');
-    modal.removeAttribute('data-playing');
+    modal.setAttribute("data-paused", "");
+    modal.removeAttribute("data-playing");
     video.pause();
     
     clearTimeout(mouseTimeout);
-    modal.classList.remove('hide-controls');
+    modal.classList.remove("hide-controls");
   }
 }
