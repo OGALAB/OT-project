@@ -11,75 +11,90 @@ window.addEventListener("scroll", function() {
 let mouseTimeout;
 const hideDelay = 1000;
 
-function hideControls() {
-    const modal = document.getElementById("videoModal");
+function hideControls(modalId) {
+    const modal = document.getElementById(modalId);
     if (modal && modal.hasAttribute("data-playing")) {
         modal.classList.add("hide-controls");
     }
 }
 
-function resetControlTimer() {
-    const modal = document.getElementById("videoModal");
+function resetControlTimer(modalId) {
+    const modal = document.getElementById(modalId);
     if (!modal) return;
 
     modal.classList.remove("hide-controls");
 
     clearTimeout(mouseTimeout);
-    mouseTimeout = setTimeout(hideControls, hideDelay);
+    mouseTimeout = setTimeout(() => hideControls(modalId), hideDelay);
 }
 
-function openModal() {
-  const modal = document.getElementById("videoModal");
-  const video = document.getElementById("tabgen-Video");
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
 
-  if (!modal || !video) return;
+    const video = modal.querySelector("video");
 
-  modal.style.display = 'flex';
-  modal.setAttribute("data-playing", "");
-  modal.removeAttribute("data-paused");
-  video.currentTime = 0;
-  video.play();
-
-  resetControlTimer();
-  modal.addEventListener("mousemove", resetControlTimer);
-  modal.addEventListener("touchstart", resetControlTimer);
-}
-
-function closeModal(event) {
-  if (event.target.classList.contains("modal-background") || event.target.classList.contains("modal-close-btn")) {
-    const modal = document.getElementById("videoModal");
-    const video = document.getElementById("tabgen-Video");
-
-    if (modal && video) {
-      modal.style.display = "none";
-      video.pause();
-      
-      clearTimeout(mouseTimeout);
-      modal.removeEventListener("mousemove", resetControlTimer);
-      modal.removeEventListener("touchstart", resetControlTimer);
-      modal.classList.remove("hide-controls");
-    }
-  }
-}
-
-function toggleVideo(event) {
-  if (event) event.stopPropagation();
-  
-  const modal = document.getElementById("videoModal");
-  const video = document.getElementById("tabgen-Video");
-
-  if (!modal || !video) return;
-  if (video.paused || modal.hasAttribute("data-paused")) {
+    modal.style.display = 'flex';
     modal.setAttribute("data-playing", "");
-    modal.removeAttribute("data-paused");
-    video.play();
-    resetControlTimer();
-  } else {
-    modal.setAttribute("data-paused", "");
-    modal.removeAttribute("data-playing");
-    video.pause();
+    modal.removeAttribute("data-pause");
     
-    clearTimeout(mouseTimeout);
-    modal.classList.remove("hide-controls");
-  }
+    if (video) {
+        video.currentTime = 0;
+        video.play();
+    }
+
+    const mouseMoveHandler = () => resetControlTimer(modalId);
+    modal._mouseMoveHandler = mouseMoveHandler;
+
+    resetControlTimer(modalId);
+    modal.addEventListener("mousemove", mouseMoveHandler);
+    modal.addEventListener("touchstart", mouseMoveHandler);
+}
+
+function closeModal(event, modalId) {
+    if (
+        event.target.classList.contains("modal-background") || 
+        event.target.classList.contains("modal-close-btn")
+    ) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+
+        const video = modal.querySelector("video");
+
+        modal.style.display = "none";
+        if (video) {
+            video.pause();
+        }
+        
+        clearTimeout(mouseTimeout);
+        if (modal._mouseMoveHandler) {
+            modal.removeEventListener("mousemove", modal._mouseMoveHandler);
+            modal.removeEventListener("touchstart", modal._mouseMoveHandler);
+        }
+        modal.classList.remove("hide-controls");
+    }
+}
+
+function toggleVideo(event, modalId) {
+    if (event) event.stopPropagation();
+    
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    const video = modal.querySelector("video");
+    if (!video) return;
+
+    if (video.paused || modal.hasAttribute("data-pause")) {
+        modal.setAttribute("data-playing", "");
+        modal.removeAttribute("data-pause");
+        video.play();
+        resetControlTimer(modalId);
+    } else {
+        modal.setAttribute("data-pause", "");
+        modal.removeAttribute("data-playing");
+        video.pause();
+        
+        clearTimeout(mouseTimeout);
+        modal.classList.remove("hide-controls");
+    }
 }
