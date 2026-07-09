@@ -42,8 +42,8 @@ export default function App() {
         const year = Number(inputYear);
         const month = Number(inputMonth);
 
-        const cleaneCalendarData = keepDigitsAndBuildCalendar(cleanInputValue);
-        const calendarHtmlContent = generateCalendarHtml(year, month, cleaneCalendarData);
+        const cleanCalendarData = keepDigitsAndBuildCalendar(cleanInputValue);
+        const calendarHtmlContent = generateCalendarHtml(year, month, cleanCalendarData);
 
         try {
             const htmlblob = new Blob([calendarHtmlContent], {type: 'text/html'});
